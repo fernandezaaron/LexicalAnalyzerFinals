@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class gui extends JFrame {
     // Panels
@@ -86,6 +87,22 @@ public class gui extends JFrame {
         enterButton.setBounds((int) (inputPanel.getWidth() / 8), 410, 100, 30);
         editButton.setBounds((int) (inputPanel.getWidth() / 1.5), 410, 100, 30);
 
+        editButton.setEnabled(false);
+        enterButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enterButton.setEnabled(false);
+                editButton.setEnabled(true);
+            }
+        });
+
+        editButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editButton.setEnabled(false);
+                enterButton.setEnabled(true);
+            }
+        });
         add(enterButton);
         add(editButton);
     }
