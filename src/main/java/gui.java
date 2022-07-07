@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class gui extends JFrame {
@@ -9,10 +10,15 @@ public class gui extends JFrame {
     // Labels
     public static JLabel[] title = new JLabel[2];
 
+    // Scrolls
+    public static JScrollPane scrollPane;
+
     // Input Field
     public static JTextArea textArea;
 
     // Output Field
+    public static DefaultTableModel tableModel;
+    public static JTable table;
 
     // Buttons
     public static JButton enterButton;
@@ -35,12 +41,14 @@ public class gui extends JFrame {
 
         setLabel();
         setInput();
+        setScrollPane();
         setButton();
+        setOutput();
 
         setVisible(true);
     }
     public void setPanel(){
-        inputPanel.setLayout(null);
+        inputPanel.setLayout(new BorderLayout(100, 100));
         inputPanel.setBounds(10, 50, 365, 350);
         inputPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         inputPanel.setBackground(new Color(187, 163, 159));
@@ -49,6 +57,10 @@ public class gui extends JFrame {
         outputPanel.setBounds(410, 50, 365, 350);
         outputPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         outputPanel.setBackground(new Color(187, 163, 159));
+    }
+    public void setScrollPane(){
+        scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        inputPanel.add(scrollPane);
     }
     public void setLabel(){
         title[0] = new JLabel("Input");
@@ -76,6 +88,20 @@ public class gui extends JFrame {
 
         add(enterButton);
         add(editButton);
+    }
+    public void setOutput(){
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.ipady = outputPanel.getHeight() - 50;
+        gridConstraints.ipadx = outputPanel.getWidth() - 50;
+
+        tableModel = new DefaultTableModel();
+        table = new JTable(tableModel);
+
+        tableModel.addColumn("Code");
+        tableModel.addColumn("Output");
+
+        outputPanel.add(new JScrollPane(table), gridConstraints);
     }
 }
 
