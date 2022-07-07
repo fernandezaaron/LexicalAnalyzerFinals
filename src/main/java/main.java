@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public class main {
     public static void main(String[] args) {
-        
+        String[] samp = {"1","/", "using"};
+        lexicalSolver(samp);
     }
     public class constant{
         static ArrayList <String> keywords = new ArrayList<>(
@@ -20,19 +21,18 @@ public class main {
          );
     }
 
-    private boolean check(String val, ArrayList<String> arr){
+    private static boolean check(String val, ArrayList<String> arr){
         return arr.contains(val);
     };
 
-    public static boolean isalnum(char val){
-        return (val >= 'a' && val <= 'z') || (val >= 'A'&& val <= 'Z') || (val >= '0' && val <= '9');
+    public static boolean isalnum(String val){
+        return val != null && val.matches("^[a-zA-Z0-9]*$");
     }
 
-    public void lexicalSolver(char word[]) {
+    public static void lexicalSolver(String word[]) {
         int start = 0;
         int end = 0;
         int peek = 0;
-        String conv = "";
         String value = "";
         for (int i = 0; i < word.length; i++) {
             start = i;
@@ -40,14 +40,13 @@ public class main {
             if (isalnum(word[i])) {
                 while (isalnum(word[end])) {
                     peek = end + 1;
-                    if (!isalnum(word[peek]) && (word[peek] != '\0')) {
+                    if (!isalnum(word[peek]) && (word[peek] != "\0")) {
                         break;
                     } else {
                         end++;
                     }
                 }
-                conv = String.valueOf(word[i]);
-                value = conv.substring(start, peek - start);
+                value = value.substring(start, peek - start);
                 if (check(value, constant.keywords)) {
                     System.out.println(value + " - is a keyword" );
                 } else {
@@ -56,13 +55,13 @@ public class main {
             } else {
                 while (!isalnum(word[end])) {
                     peek = end;
-                    if ((word[peek] != '\0')) {
+                    if ((word[peek] != "\0")) {
                         break;
                     } else {
                         end++;
                     }
                 }
-                value = conv.substring(start, 1);
+                value = value.substring(start, 1);
                 if (check(value, constant.punctuators)) {
                     System.out.println(value + " - is a Punctuator" );
                 } else if (check(value, constant.operators)) {
