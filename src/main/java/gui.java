@@ -91,6 +91,14 @@ public class gui extends JFrame {
         enterButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Add here the code for logic
+
+
+
+
+
+                // Add here the code for logic
+                textArea.setEnabled(false);
                 enterButton.setEnabled(false);
                 editButton.setEnabled(true);
             }
@@ -99,6 +107,7 @@ public class gui extends JFrame {
         editButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textArea.setEnabled(true);
                 editButton.setEnabled(false);
                 enterButton.setEnabled(true);
             }
