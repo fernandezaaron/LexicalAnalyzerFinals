@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 
-public class lexical {
+public class lexical extends constant {
     private ArrayList<ArrayList<container>> output = new ArrayList<ArrayList<container>>();
     private String code;
     private int count;
+
+
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
-        output = new ArrayList<>();
+//        output = new ArrayList<>();
         count = 0;
 
     }
@@ -53,6 +55,9 @@ public class lexical {
                     count++;
 
                 }
+
+
+
 //                if(String.valueOf(this.code.indexOf(end)).contains("*")){
 //                    peek = end + 1;
 //                    if(String.valueOf(this.code.indexOf(peek)).contains("*")){
@@ -66,6 +71,11 @@ public class lexical {
 
 
             }
+            // yung pang semicolon
+            if(String.valueOf(this.code.indexOf(i)).contains(keywords)) {
+                end = i + 1;
+            }
+
         }
     }
     private String addString(String string ,int start, int end){
