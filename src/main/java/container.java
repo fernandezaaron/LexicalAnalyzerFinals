@@ -9,6 +9,9 @@ public class container {
         this.identify = identify;
     }
 
+    public void show(){
+        System.out.println(code + " " + value + " " + identify);
 
+    }
 
 }

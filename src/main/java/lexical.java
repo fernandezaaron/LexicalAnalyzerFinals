@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class lexical {
     private ArrayList<container> output;
     private String code;
     private int count;
+    Scanner sc = new Scanner(System.in);
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -14,7 +16,12 @@ public class lexical {
     // Show function is used to output the code
     public void show(){
         //System.out.println(code);
-        System.out.println(output.get(0));
+        for (container i: output) {
+//            System.out.println(output.get(String.i.show());
+            i.show();
+
+        }
+        //System.out.println(output.get(0));
     }
 
     private boolean check(String val, ArrayList<String> arr){
@@ -37,31 +44,69 @@ public class lexical {
 
         for (int i = 0; i < this.code.length(); i++) {
             start = i;
-            end = i;
+            if(String.valueOf(this.code.charAt(start)).contains("/")) {
+                end = start + 1;
 
-            if(String.valueOf(this.code.charAt(i)).contains("/")) {
-                end = i + 1;
-
-                //System.out.println("gumagana to");
+                //checks if may katabing backslash
                 if (String.valueOf(this.code.charAt(end)).contains("/")) {
-                    //System.out.println(String.valueOf(this.code.charAt(i)));
-                    //System.out.println("gumagana to");
-                    while (!String.valueOf(this.code.charAt(end)).contains("/0")) {
-                        System.out.println(String.valueOf(this.code.charAt(end)));
-                        peek = end + 1;
-                        if(String.valueOf(this.code.charAt(peek)).contains("/0") && peek > this.code.length()){
-                            break;
-                        }else{
-                            end++;
+
+                    //if true set peek as end + 1 then loop till the code's end
+                    peek = end + 1;
+                    while (peek < this.code.length()) {
+//                        System.out.println(this.code.charAt(end) + " - " + end);
+//                        System.out.println(this.code.charAt(peek) + " - " + peek);
+//                        System.out.println("END BEFORE - " + end);
+//                        System.out.println("PEEK BEFORE - " + peek);
+                        end++;
+
+                        //if peek is currently a newline, add that line into the array
+                        if(this.code.charAt(peek) == '\n'){
+                            value = this.code.substring(start,end);
+                            System.out.println("dumadaan dito promise");
+                            output.add(new container(value, "", "Single-Line Comment"));
+                            System.out.println(start + " " +end);
+                             break;
                         }
-                        System.out.println(peek + " " + end);
+                        peek = end + 1;
+
+                        //if peek is currently at the last line of the code, add that line into the array
+                        if(peek == this.code.length()){
+                            System.out.println(peek + " " + this.code.length());
+                            value = this.code.substring(start,peek);
+                            System.out.println("dumadaan dito promise");
+                            output.add(new container(value, "", "Single-Line Comment"));
+                            System.out.println(start + " " +end);
+                            break;
+                        }
+                       // System.out.println(this.code.charAt(end) + " - " + end);
+                       // System.out.println(this.code.charAt(peek) + " - " + peek);
+//                        System.out.println("END AFTER - " + end);
+//                        System.out.println("PEEK AFTER - " + peek);
+
                     }
-                    concatString = addString(value, start, end);
 
-                    output.add(new container(concatString, "n/a", "Single-Line Comment"));
-
-                    i = end-1;
                 }
+                else if(String.valueOf(this.code.charAt(end)).contains("*")){
+                    System.out.println("i read the asterisk");
+                    peek = end + 1;
+//                    while(peek < this.code.length()){
+//
+//                        if(this.code.endsWith("*/")){
+//                            System.out.println("i read the multi line comment");
+//                            break;
+//                        }
+//
+//                        peek = end + 1;
+//
+//
+
+                        //output.add(new container(this.code, "n/a", "Multi-Line Comment"));
+                   // }
+                }
+//                else{
+//                    break;
+//                }
+
             }
 
 //            if (String.valueOf(this.code.charAt(i)).contains("/")) {
@@ -91,6 +136,7 @@ public class lexical {
 //            }
 
         }
+
 
 //                if(String.valueOf(this.code.indexOf(end)).contains("*")){
 //                    peek = end + 1;
