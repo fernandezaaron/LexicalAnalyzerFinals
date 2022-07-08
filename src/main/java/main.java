@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class main {
     public static void main(String[] args) {
-        String[] samp = {"1","/", "using"};
+        String[] samp = {"static ArrayList <String> operators = new ArrayList<>"};
         lexicalSolver(samp);
     }
     public class constant{
@@ -34,6 +34,12 @@ public class main {
         int end = 0;
         int peek = 0;
         String value = "";
+
+
+        for (int i=0;i<word.length;i++){
+            System.out.println(word[i]);
+        }
+
         for (int i = 0; i < word.length; i++) {
             start = i;
             end = i;
