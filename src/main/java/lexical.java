@@ -14,7 +14,7 @@ public class lexical {
     // Show function is used to output the code
     public void show(){
         //System.out.println(code);
-        System.out.println(output.get(0));
+//        System.out.println(output.get(0));
     }
 
     private boolean check(String val, ArrayList<String> arr){
@@ -66,8 +66,25 @@ public class lexical {
 //                    }
 //
 //                }
+            }
+            if(isalnum(String.valueOf(this.code.charAt(i)))) {
+                while(isalnum(String.valueOf(this.code.charAt(end)))){
+                    peek = end + 1;
+
+                    if (!isalnum(String.valueOf(this.code.charAt(peek)))) {
+                        value = this.code.substring(start,peek);
+                        System.out.print(value + " ");
+                        break;
+                    }
+                    else {
+                        end++;
+                    }
 
 
+
+                    i = end;
+
+                }
             }
         }
     }
