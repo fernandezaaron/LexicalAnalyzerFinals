@@ -33,7 +33,7 @@ public class main {
         int start = 0;
         int end = 0;
         int peek = 0;
-        String value = "";
+        String value = "using";
 
 
         for (int i=0;i<word.length;i++){

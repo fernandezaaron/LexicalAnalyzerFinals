@@ -1,5 +1,4 @@
 public class lexical {
-    String
     private String code;
     // Constructor is used to save the code
     public lexical(String code){
