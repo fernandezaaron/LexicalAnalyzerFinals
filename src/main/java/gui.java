@@ -99,7 +99,7 @@ public class gui extends JFrame {
                 String code = textArea.getText();
 
                 lexical = new lexical(code);
-
+                lexical.logic();
                 lexical.show();
 
                 // Add here the code for logic

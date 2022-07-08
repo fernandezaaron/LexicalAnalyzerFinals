@@ -1,15 +1,13 @@
 import java.util.ArrayList;
 
-public class lexical extends constant {
-    private ArrayList<ArrayList<container>> output = new ArrayList<ArrayList<container>>();
+public class lexical {
+    private ArrayList<container> output;
     private String code;
     private int count;
-
-
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
-//        output = new ArrayList<>();
+        output = new ArrayList<>();
         count = 0;
 
     }
@@ -40,24 +38,24 @@ public class lexical extends constant {
         for (int i = 0; i < this.code.length(); i++) {
             start = i;
             end = i;
-            if(String.valueOf(this.code.indexOf(i)).contains("/")){
+            //System.out.println(String.valueOf(this.code.charAt(i)));
+            if(String.valueOf(this.code.charAt(start)).contains("/")){
                 end = i + 1;
-
-                if(String.valueOf(this.code.indexOf(end)).contains("/")){
+                //System.out.println("gumagana to");
+                if(String.valueOf(this.code.charAt(end)).contains("/")){
                     peek = end + 1;
-
-                    while(!(String.valueOf(this.code.indexOf(peek)).contains(null))){
+                    System.out.println("gumagana to");
+                    while(!(String.valueOf(this.code.charAt(peek)).contains(null))){
                         peek++;
                     }
                     concatString = addString(value, start, end);
-                    output.get(count).add(new container(concatString, "n/a", "Single-Line Comment"));
+
+                    output.add(new container(concatString, "n/a", "Single-Line Comment"));
+
                     i=peek;
-                    count++;
+
 
                 }
-
-
-
 //                if(String.valueOf(this.code.indexOf(end)).contains("*")){
 //                    peek = end + 1;
 //                    if(String.valueOf(this.code.indexOf(peek)).contains("*")){
@@ -71,11 +69,6 @@ public class lexical extends constant {
 
 
             }
-            // yung pang semicolon
-            if(String.valueOf(this.code.indexOf(i)).contains(keywords)) {
-                end = i + 1;
-            }
-
         }
     }
     private String addString(String string ,int start, int end){
