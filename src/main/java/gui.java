@@ -25,6 +25,9 @@ public class gui extends JFrame {
     public static JButton enterButton;
     public static JButton editButton;
 
+    // Logic
+    private lexical lexical;
+
     public gui(){
         inputPanel = new JPanel();
         outputPanel = new JPanel();
@@ -93,9 +96,11 @@ public class gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Add here the code for logic
 
+                String code = textArea.getText();
 
+                lexical = new lexical(code);
 
-
+                lexical.show();
 
                 // Add here the code for logic
                 textArea.setEnabled(false);
