@@ -39,7 +39,6 @@ public class lexical {
         int end = 0;
         int peek = 0;
         String value = "";
-        String concatString;
 
 
         for (int i = 0; i < this.code.length(); i++) {
@@ -47,10 +46,10 @@ public class lexical {
             if(String.valueOf(this.code.charAt(start)).contains("/")) {
                 end = start + 1;
 
-                //checks if may katabing backslash
+                // Check if the next character has "/"
                 if (String.valueOf(this.code.charAt(end)).contains("/")) {
 
-                    //if true set peek as end + 1 then loop till the code's end
+                    // Set peek to end + 1 then loop till the code's end
                     peek = end + 1;
                     while (peek < this.code.length()) {
 //                        System.out.println(this.code.charAt(end) + " - " + end);
@@ -59,22 +58,22 @@ public class lexical {
 //                        System.out.println("PEEK BEFORE - " + peek);
                         end++;
 
-                        //if peek is currently a newline, add that line into the array
+                        // If peek is currently a newline, add that line into the array
                         if(this.code.charAt(peek) == '\n'){
                             value = this.code.substring(start,end);
                             System.out.println("dumadaan dito promise");
-                            output.add(new container(value, "", "Single-Line Comment"));
+                            output.add(new container(value, "n/a", "Single-Line Comment"));
                             System.out.println(start + " " +end);
-                             break;
+                            break;
                         }
                         peek = end + 1;
 
-                        //if peek is currently at the last line of the code, add that line into the array
+                        // If peek is currently at the last line of the code, add that line into the array
                         if(peek == this.code.length()){
                             System.out.println(peek + " " + this.code.length());
                             value = this.code.substring(start,peek);
                             System.out.println("dumadaan dito promise");
-                            output.add(new container(value, "", "Single-Line Comment"));
+                            output.add(new container(value, "n/a", "Single-Line Comment"));
                             System.out.println(start + " " +end);
                             break;
                         }
@@ -84,28 +83,12 @@ public class lexical {
 //                        System.out.println("PEEK AFTER - " + peek);
 
                     }
-
                 }
                 else if(String.valueOf(this.code.charAt(end)).contains("*")){
                     System.out.println("i read the asterisk");
                     peek = end + 1;
-//                    while(peek < this.code.length()){
-//
-//                        if(this.code.endsWith("*/")){
-//                            System.out.println("i read the multi line comment");
-//                            break;
-//                        }
-//
-//                        peek = end + 1;
-//
-//
-
-                        //output.add(new container(this.code, "n/a", "Multi-Line Comment"));
-                   // }
                 }
-//                else{
-//                    break;
-//                }
+
 
             }
 

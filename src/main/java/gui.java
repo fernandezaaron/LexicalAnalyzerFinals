@@ -42,6 +42,7 @@ public class gui extends JFrame {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setLocationRelativeTo(null);
 
         setLabel();
         setInput();
