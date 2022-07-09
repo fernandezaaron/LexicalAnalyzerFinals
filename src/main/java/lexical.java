@@ -55,7 +55,6 @@ public class lexical {
                         // If peek is currently a newline, add that line into the array
                         if(this.code.charAt(peek) == '\n'){
                             value = this.code.substring(start,end);
-                            System.out.println("dumadaan dito promise");
                             output.add(new container(value, "n/a", "Single-Line Comment"));
                             System.out.println(start + " " +end);
                             break;
@@ -66,7 +65,6 @@ public class lexical {
                         if(peek == this.code.length()){
                             System.out.println(peek + " " + this.code.length());
                             value = this.code.substring(start,peek);
-                            System.out.println("dumadaan dito promise");
                             output.add(new container(value, "n/a", "Single-Line Comment"));
                             System.out.println(start + " " +end);
                             break;
