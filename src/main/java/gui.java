@@ -42,6 +42,7 @@ public class gui extends JFrame {
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setLocationRelativeTo(null);
 
         setLabel();
         setInput();
@@ -130,6 +131,7 @@ public class gui extends JFrame {
         table = new JTable(tableModel);
 
         tableModel.addColumn("Code");
+        tableModel.addColumn("Value");
         tableModel.addColumn("Output");
 
         outputPanel.add(new JScrollPane(table), gridConstraints);
