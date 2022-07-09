@@ -4,6 +4,7 @@ public class lexical {
     private ArrayList<container> output;
     private String code;
     private int count;
+
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -13,8 +14,11 @@ public class lexical {
     }
     // Show function is used to output the code
     public void show(){
-        //System.out.println(code);
+//        System.out.println(code);
 //        System.out.println(output.get(0));
+//        for (container c : output){
+//            c.show();
+//        }
     }
 
     private boolean check(String val, ArrayList<String> arr){
@@ -67,21 +71,20 @@ public class lexical {
 //
 //                }
             }
-            if(isalnum(String.valueOf(this.code.charAt(i)))) {
-                while(isalnum(String.valueOf(this.code.charAt(end)))){
+            if((isalnum(String.valueOf(this.code.charAt(i))))) {
+                while((isalnum(String.valueOf(this.code.charAt(end))))){
                     peek = end + 1;
 
                     if (!isalnum(String.valueOf(this.code.charAt(peek)))) {
                         value = this.code.substring(start,peek);
-                        System.out.print(value + " ");
+                        System.out.print(value);
+
+//                        output.add(new container(value,"pp","alnum"));
                         break;
                     }
                     else {
                         end++;
                     }
-
-
-
                     i = end;
 
                 }
