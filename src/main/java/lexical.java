@@ -24,6 +24,12 @@ public class lexical {
         //System.out.println(output.get(0));
     }
 
+    public void addRow(){
+        for(container i : output){
+            gui.tableModel.addRow(new Object[]{i.getCode(), i.getValue(), i.getIdentify()});
+        }
+    }
+
     // Logic function is used to identify the input string
     public void logic(){
         int start = 0;
@@ -40,7 +46,6 @@ public class lexical {
             // START OF READING IF COMMENTS
             if(String.valueOf(this.code.charAt(start)).contains("/") && end != this.code.length()-1) {
                 end = start + 1;
-
                 // Check if the next character has "/"
                 if (String.valueOf(this.code.charAt(end)).contains("/")) {
 
@@ -70,8 +75,8 @@ public class lexical {
                             System.out.println(start + " " +end);
                             break;
                         }
-                       // System.out.println(this.code.charAt(end) + " - " + end);
-                       // System.out.println(this.code.charAt(peek) + " - " + peek);
+//                        System.out.println(this.code.charAt(end) + " - " + end);
+//                        System.out.println(this.code.charAt(peek) + " - " + peek);
 //                        System.out.println("END AFTER - " + end);
 //                        System.out.println("PEEK AFTER - " + peek);
 
@@ -93,13 +98,12 @@ public class lexical {
                     }
 
                 }
-
             }
 
             // END OF READING IF COMMENTS
 
 
-            if((isalnum(String.valueOf(this.code.charAt(i)))) || !(isalnum(String.valueOf(this.code.charAt(i))))) {
+            else if((isalnum(String.valueOf(this.code.charAt(i)))) || !(isalnum(String.valueOf(this.code.charAt(i))))) {
 
                 while((isalnum(String.valueOf(this.code.charAt(end))))){
                     peek = end + 1;
