@@ -4,7 +4,6 @@ public class lexical {
     private ArrayList<container> output;
     private String code;
     private int count;
-
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -14,11 +13,8 @@ public class lexical {
     }
     // Show function is used to output the code
     public void show(){
-//        System.out.println(code);
-//        System.out.println(output.get(0));
-//        for (container c : output){
-//            c.show();
-//        }
+        //System.out.println(code);
+        System.out.println(output.get(0));
     }
 
     private boolean check(String val, ArrayList<String> arr){
@@ -42,24 +38,60 @@ public class lexical {
         for (int i = 0; i < this.code.length(); i++) {
             start = i;
             end = i;
-            //System.out.println(String.valueOf(this.code.charAt(i)));
-            if(String.valueOf(this.code.charAt(start)).contains("/")){
+
+            if(String.valueOf(this.code.charAt(i)).contains("/")) {
                 end = i + 1;
+
                 //System.out.println("gumagana to");
-                if(String.valueOf(this.code.charAt(end)).contains("/")){
-                    peek = end + 1;
-                    System.out.println("gumagana to");
-                    while(!(String.valueOf(this.code.charAt(peek)).contains(null))){
-                        peek++;
+                if (String.valueOf(this.code.charAt(end)).contains("/")) {
+                    //System.out.println(String.valueOf(this.code.charAt(i)));
+                    //System.out.println("gumagana to");
+                    while (!String.valueOf(this.code.charAt(end)).contains("/0")) {
+                        System.out.println(String.valueOf(this.code.charAt(end)));
+                        peek = end + 1;
+                        if(String.valueOf(this.code.charAt(peek)).contains("/0") && peek > this.code.length()){
+                            break;
+                        }else{
+                            end++;
+                        }
+                        System.out.println(peek + " " + end);
                     }
                     concatString = addString(value, start, end);
 
                     output.add(new container(concatString, "n/a", "Single-Line Comment"));
 
-                    i=peek;
-
-
+                    i = end-1;
                 }
+            }
+
+//            if (String.valueOf(this.code.charAt(i)).contains("/")) {
+//                end = i + 1;
+//                if(String.valueOf(this.code.charAt(end)).contains("/")) {
+//                    peek = end + 1;
+//
+//                }else {
+//
+//                }
+//
+//                while (isalnum(String.valueOf(this.code.indexOf(end)))) {
+//                    peek = end + 1;
+//                    if (!isalnum(String.valueOf(this.code.indexOf(peek))) && (String.valueOf(this.code.indexOf(peek)) != "\0")) {
+//                        break;
+//                    } else {
+//
+//                        end++;
+//                    }
+//                }
+//                value = value.substring(start, peek - start);
+//                if (check(value, constant.keywords)) {
+//                    System.out.println(value + " - is a keyword" );
+//                } else {
+//                    System.out.println(value + " - is an Identifier" );
+//                }
+//            }
+
+        }
+
 //                if(String.valueOf(this.code.indexOf(end)).contains("*")){
 //                    peek = end + 1;
 //                    if(String.valueOf(this.code.indexOf(peek)).contains("*")){
@@ -70,27 +102,9 @@ public class lexical {
 //                    }
 //
 //                }
-            }
-            if((isalnum(String.valueOf(this.code.charAt(i))))) {
-                while((isalnum(String.valueOf(this.code.charAt(end))))){
-                    peek = end + 1;
-
-                    if (!isalnum(String.valueOf(this.code.charAt(peek)))) {
-                        value = this.code.substring(start,peek);
-                        System.out.print(value);
-
-//                        output.add(new container(value,"pp","alnum"));
-                        break;
-                    }
-                    else {
-                        end++;
-                    }
-                    i = end;
-
-                }
-            }
-        }
     }
+
+
     private String addString(String string ,int start, int end){
         for(int i = start; i < end; i++){
             string.concat(String.valueOf(i));
@@ -99,6 +113,7 @@ public class lexical {
     }
 
 }
+
 
 
 //            if (isalnum(String.valueOf(this.code.indexOf(i)))) {
