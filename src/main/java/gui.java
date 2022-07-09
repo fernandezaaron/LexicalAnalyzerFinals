@@ -130,6 +130,7 @@ public class gui extends JFrame {
         table = new JTable(tableModel);
 
         tableModel.addColumn("Code");
+        tableModel.addColumn("Value");
         tableModel.addColumn("Output");
 
         outputPanel.add(new JScrollPane(table), gridConstraints);
