@@ -11,7 +11,5 @@ public class container {
 
     public void show(){
         System.out.println(code + " " + value + " " + identify);
-
     }
-
 }
