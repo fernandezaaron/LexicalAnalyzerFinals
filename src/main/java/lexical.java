@@ -38,7 +38,7 @@ public class lexical {
             end = i;
 
             // START OF READING IF COMMENTS
-            if(String.valueOf(this.code.charAt(start)).contains("/")) {
+            if(String.valueOf(this.code.charAt(start)).contains("/") && end != this.code.length()-1) {
                 end = start + 1;
 
                 // Check if the next character has "/"
@@ -80,8 +80,18 @@ public class lexical {
                 }
                 // If the next character is "*"
                 else if(String.valueOf(this.code.charAt(end)).contains("*")){
-                    System.out.println("i read the asterisk");
                     peek = end + 1;
+                    while(peek < this.code.length()){
+                        end++;
+                        peek = end + 1;
+                        if(this.code.charAt(end) == '*' && this.code.charAt(peek) == '/'){
+                            System.out.println(end + " " + peek);
+                            System.out.println(this.code.substring(start,peek+1));
+                            output.add(new container(this.code.substring(start,peek+1), "n/a", "Multi-Line Comment"));
+                            break;
+                        }
+                    }
+
                 }
 
             }
