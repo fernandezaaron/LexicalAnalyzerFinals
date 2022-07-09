@@ -73,8 +73,8 @@ public class lexical {
                             System.out.println(start + " " +end);
                             break;
                         }
-                       // System.out.println(this.code.charAt(end) + " - " + end);
-                       // System.out.println(this.code.charAt(peek) + " - " + peek);
+//                        System.out.println(this.code.charAt(end) + " - " + end);
+//                        System.out.println(this.code.charAt(peek) + " - " + peek);
 //                        System.out.println("END AFTER - " + end);
 //                        System.out.println("PEEK AFTER - " + peek);
 
