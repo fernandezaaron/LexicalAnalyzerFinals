@@ -2,9 +2,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class lexical {
-    private ArrayList<container> output;
+    public ArrayList<container> output;
     private String code;
     private int count;
+
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -18,9 +19,14 @@ public class lexical {
         for (container i: output) {
 //            System.out.println(output.get(String.i.show());
             i.show();
-
         }
         //System.out.println(output.get(0));
+    }
+
+    public void addRow(){
+        for(container i : output){
+            gui.tableModel.addRow(new Object[]{i.getCode(), i.getValue(), i.getIdentify()});
+        }
     }
 
     // Logic function is used to identify the input string
@@ -35,11 +41,9 @@ public class lexical {
         for (int i = 0; i < this.code.length(); i++) {
             start = i;
             end = i;
-
             // START OF READING IF COMMENTS
-            if(String.valueOf(this.code.charAt(start)).contains("/")) {
+            if(String.valueOf(this.code.charAt(start)).contains("/") && end != this.code.length()-1) {
                 end = start + 1;
-
                 // Check if the next character has "/"
                 if (String.valueOf(this.code.charAt(end)).contains("/")) {
 
@@ -79,10 +83,19 @@ public class lexical {
                 }
                 // If the next character is "*"
                 else if(String.valueOf(this.code.charAt(end)).contains("*")){
-                    System.out.println("i read the asterisk");
                     peek = end + 1;
-                }
+                    while(peek < this.code.length()){
+                        end++;
+                        peek = end + 1;
+                        if(this.code.charAt(end) == '*' && this.code.charAt(peek) == '/'){
+                            System.out.println(end + " " + peek);
+                            System.out.println(this.code.substring(start,peek+1));
+                            output.add(new container(this.code.substring(start,peek+1), "n/a", "Multi-Line Comment"));
+                            break;
+                        }
+                    }
 
+                }
             }
 
             // END OF READING IF COMMENTS

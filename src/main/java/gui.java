@@ -28,6 +28,7 @@ public class gui extends JFrame {
     // Logic
     private lexical lexical;
 
+
     public gui(){
         inputPanel = new JPanel();
         outputPanel = new JPanel();
@@ -102,6 +103,13 @@ public class gui extends JFrame {
                 lexical = new lexical(code);
                 lexical.logic();
                 lexical.show();
+                lexical.addRow();
+
+//                for(container i : lexical.output){
+//                    tableModel.addRow(new Object[]{i.getCode(), i.getValue(), i.getIdentify()});
+//                }
+
+
 
                 // Add here the code for logic
                 textArea.setEnabled(false);
@@ -135,6 +143,7 @@ public class gui extends JFrame {
         tableModel.addColumn("Output");
 
         outputPanel.add(new JScrollPane(table), gridConstraints);
+
     }
 }
 

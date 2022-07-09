@@ -3,6 +3,20 @@ public class container {
     private String value;
     private String identify;
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getIdentify() {
+        return identify;
+    }
+
+    private Object output;
+
     public container(String code, String value, String identify){
         this.code = code;
         this.value = value;
@@ -12,4 +26,8 @@ public class container {
     public void show(){
         System.out.println(code + " " + value + " " + identify);
     }
+
+
+
+
 }
