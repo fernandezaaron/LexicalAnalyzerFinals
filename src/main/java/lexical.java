@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class lexical {
     private ArrayList<container> output;
     private String code;
+    private String doubleQuote = "\0";
     private int count;
     private boolean flag = true;
     private boolean systemFlag = true;
@@ -196,7 +197,7 @@ public class lexical {
                 while((end < this.code.length())){
                     peek = end + 1;
                     try {
-                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == ';' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',') {
+                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == ';' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
 //                            flag = true;
                             break;
                         }
@@ -288,6 +289,30 @@ public class lexical {
                     }
                 }
 
+                else if (String.valueOf(this.code.charAt(start)).contains(constant.specialCharacter) && end != this.code.length()-1) {
+                    peek = end + 1;
+                    while(peek < this.code.length()){
+                        end++;
+                        peek = end + 1;
+                        if(this.code.charAt(end) == '\"'){
+//                            if(this.code.charAt(peek) == ')') {
+//                                output.add(new container(this.code.substring(start,peek+1), "n/a", "Statement"));
+//                            }
+//                            else if(this.code.charAt(peek) == ';') {
+//                                output.add(new container(this.code.substring(start,peek+1), "n/a", "String Value"));
+//                            }
+                            if(this.code.charAt(peek) == ')') {
+                                doubleQuote = "Statement";
+                            }
+                            else if(this.code.charAt(peek) == ';') {
+                                doubleQuote = "String Value";
+                            }
+                            break;
+                        }
+                    }
+
+                }
+
                 // END OF READING IF COMMENTS
                 while ((end < this.code.length())){
                     peek = end + 1;
@@ -352,6 +377,12 @@ public class lexical {
 //                    else if (constant.semicolon.contains(codeinput)) {
 //                        output.add(new container(codeinput,"pp","semicolon"));
 //                    }
+                    else if (doubleQuote != "\0") {
+                        output.add(new container(codeinput, "n/a", doubleQuote));
+                    }
+                    else if (codeinput.matches(" ")) {
+                        continue;
+                    }
                     else {
                         output.add(new container(codeinput, "pp", "Syntax Error"));
                     }
