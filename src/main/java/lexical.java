@@ -216,6 +216,10 @@ public class lexical {
                     if (this.code.charAt(peek) == '.'){
                         continue;
                     }
+                    else if (this.code.charAt(peek) == '('){
+                        output.add(new container(codeinput,"pp", "method"));
+                        break;
+                    }
                 }
                 else {
                     output.add(new container(codeinput,"pp", "variable"));
