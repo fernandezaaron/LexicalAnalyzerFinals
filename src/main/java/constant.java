@@ -32,6 +32,7 @@ public class constant {
             Arrays.asList("{", "}", "[", "]", "(", ")", ",")
     );
     static String semicolon = ";";
+    static String whitespace = " ";
 
 }
 

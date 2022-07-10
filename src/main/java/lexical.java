@@ -5,6 +5,7 @@ public class lexical {
     private ArrayList<container> output;
     private String code;
     private int count;
+    private boolean flag = true;
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -23,6 +24,12 @@ public class lexical {
         //System.out.println(output.get(0));
     }
 
+    public void addRow(){
+        for(container i : output){
+            gui.tableModel.addRow(new Object[]{i.getCode(), i.getValue(), i.getIdentify()});
+        }
+    }
+
     // Logic function is used to identify the input string
     public void logic(){
         int start = 0;
@@ -37,9 +44,8 @@ public class lexical {
             end = i;
 
             // START OF READING IF COMMENTS
-            if(String.valueOf(this.code.charAt(start)).contains("/")) {
+            if(String.valueOf(this.code.charAt(start)).contains("/") && end != this.code.length()-1) {
                 end = start + 1;
-
                 // Check if the next character has "/"
                 if (String.valueOf(this.code.charAt(end)).contains("/")) {
 
@@ -69,8 +75,8 @@ public class lexical {
                             System.out.println(start + " " +end);
                             break;
                         }
-                       // System.out.println(this.code.charAt(end) + " - " + end);
-                       // System.out.println(this.code.charAt(peek) + " - " + peek);
+//                        System.out.println(this.code.charAt(end) + " - " + end);
+//                        System.out.println(this.code.charAt(peek) + " - " + peek);
 //                        System.out.println("END AFTER - " + end);
 //                        System.out.println("PEEK AFTER - " + peek);
 
@@ -79,20 +85,31 @@ public class lexical {
                 }
                 // If the next character is "*"
                 else if(String.valueOf(this.code.charAt(end)).contains("*")){
-                    System.out.println("i read the asterisk");
                     peek = end + 1;
-                }
+                    while(peek < this.code.length()){
+                        end++;
+                        peek = end + 1;
+                        if(this.code.charAt(end) == '*' && this.code.charAt(peek) == '/'){
+                            System.out.println(end + " " + peek);
+                            System.out.println(this.code.substring(start,peek+1));
+                            output.add(new container(this.code.substring(start,peek+1), "n/a", "Multi-Line Comment"));
+                            break;
+                        }
+                    }
 
+                }
             }
 
             // END OF READING IF COMMENTS
 
 
-            if((isalnum(String.valueOf(this.code.charAt(i))))) {
+            else if((isalnum(String.valueOf(this.code.charAt(i)))) || !(isalnum(String.valueOf(this.code.charAt(i))))) {
+
                 while((isalnum(String.valueOf(this.code.charAt(end))))){
                     peek = end + 1;
                     try {
-                        if (!isalnum(String.valueOf(this.code.charAt(peek))) || String.valueOf(this.code.charAt(peek)) == null) {
+                        if (!isalnum(String.valueOf(this.code.charAt(peek))) || this.code.charAt(peek) == '\0') {
+                            flag = true;
                             break;
                         } else {
                             end++;
@@ -102,6 +119,21 @@ public class lexical {
                         break;
                     }
                 }
+
+                while(!isalnum(String.valueOf(this.code.charAt(i)))) {
+                    peek = end + 1;
+                    if (String.valueOf(this.code.charAt(end)).contains(" ")) {
+                        flag = false;
+                        break;
+                    } else {
+//                        end++;
+                        flag = true;
+                        System.out.println("daan dito");
+//                        end--;
+                        break;
+                    }
+                }
+
                 codeinput = this.code.substring(start, peek);
                 if(constant.keywords.contains(codeinput)) {
                     output.add(new container(codeinput,"pp","keyword"));
@@ -115,42 +147,50 @@ public class lexical {
                 else if(constant.dataTypes.contains(codeinput)) {
                     output.add(new container(codeinput,"pp","dataTypes"));
                 }
-                else {
-                    output.add(new container(codeinput,"pp","variables"));
+                if (constant.operators.contains(codeinput)) {
+                    output.add(new container(codeinput,"pp","operators"));
                 }
+                else if (constant.punctuators.contains(codeinput)) {
+                    output.add(new container(codeinput,"pp","punctuators"));
+                }
+                else if (constant.separators.contains(codeinput)) {
+                    output.add(new container(codeinput,"pp","separators"));
+                }
+                else {
+                    if(flag) {
+                        output.add(new container(codeinput, "pp", "variables"));
+                    }
+                    else{
+                        System.out.println("i am a whitespace");
+                    }
+
+                    }
+
+
             }
 
 //            else if(!(isalnum(String.valueOf(this.code.charAt(i))))) {
 //                try {
-//                    if(String.valueOf(this.code.charAt(i)) == " ") {
-//                        end++;
-//                        break;
-//                    }
-//                    if (String.valueOf(this.code.charAt(end)) == null) {
-//                        end++;
-//                        break;
-//                    }
-//                    if (constant.operators.contains(String.valueOf(this.code.charAt(i) + this.code.charAt(i+1)))) {
-//                        end++;
-//                    }
-//                    else {
-//                        end++;
-//                    }
 //                    while(!isalnum(String.valueOf(this.code.charAt(i)))) {
 //                        peek = end + 1;
-//                        if(String.valueOf(this.code.charAt(i)) == " ") {
+//
+//                        if(String.valueOf(this.code.charAt(i)).contains(" ")) {
+//                            System.out.println("whitespace here");
 //                            end++;
 //                            break;
 //                        }
-//                        else if (String.valueOf(this.code.charAt(peek)) == null) {
+//                        else if (String.valueOf(this.code.charAt(peek)).contains("\0")) {
+//
+//                            System.out.println("null");
 //                            break;
 //                        }
-//                        else if (constant.operators.contains(String.valueOf(this.code.charAt(i) + this.code.charAt(end)))) {
+//                        else if (constant.operators.contains(String.valueOf(this.code.charAt(i) + String.valueOf(this.code.charAt(end))))) {
 //                            end++;
 //                            break;
 //                        }
 //                        else {
 //                            end++;
+//                            System.out.println("daan dito");
 //                            break;
 //                        }
 //                    }
@@ -168,11 +208,20 @@ public class lexical {
 //                else if (constant.separators.contains(codeinput)) {
 //                    output.add(new container(codeinput,"pp","separators"));
 //                }
-//                else if (constant.semicolon == codeinput) {
+//                else if (constant.semicolon.contains(codeinput)) {
 //                    output.add(new container(codeinput,"pp","semicolon"));
 //                }
-//                else
+////                else if (constant.whitespace.contains(codeinput)){
+////
+////                    System.out.println("ANOTHER WHITESPACE");
+////                    break;
+////                }
+//                else {
+//                    System.out.println("YOU ARE NOT SUPPOSED TO BE HERE");
 //                    break;
+//                }
+//                //testing lng toh
+//                end--;
 //            }
 
             i = end;
