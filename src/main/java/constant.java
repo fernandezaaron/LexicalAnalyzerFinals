@@ -5,7 +5,8 @@ public class constant {
     static ArrayList<String> keywords = new ArrayList<>(
             Arrays.asList("abstract", "class", "default", "enum", "extends", "implements",
                     "instanceof", "interface", "native", "package", "public", "static",
-                    "strictfp", "super", "synchronized", "transient",  "void", "volatile")
+                    "strictfp", "super", "synchronized", "transient",  "void", "volatile","this",
+                    "System","out","print","println")
     );
 
     static ArrayList<String> semiKeywords = new ArrayList<>(
@@ -18,7 +19,7 @@ public class constant {
     );
 
     static ArrayList<String> dataTypes = new ArrayList<>(
-            Arrays.asList("this", "boolean", "byte", "int", "char", "long", "double", "float", "short", "String")
+            Arrays.asList("boolean", "byte", "int", "char", "long", "double", "float", "short", "String")
     );
 
     static ArrayList <String> operators = new ArrayList<>(

@@ -208,6 +208,17 @@ public class lexical {
                     catch (StringIndexOutOfBoundsException e) {
                         break;
                     }
+
+                }
+                codeinput = this.code.substring(start, peek);
+                if(constant.keywords.contains(codeinput)){
+                    peek++;
+                    if (this.code.charAt(peek) == '.'){
+                        continue;
+                    }
+                }
+                else {
+                    output.add(new container(codeinput,"pp", "variable"));
                 }
 //                codeinput = this.code.substring(start, peek);
 //                if(constant.keywords.contains(codeinput)) {
