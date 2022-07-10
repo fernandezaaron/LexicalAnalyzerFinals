@@ -6,6 +6,7 @@ public class lexical {
     private String code;
     private int count;
     private boolean flag = true;
+    private boolean systemFlag = true;
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -108,10 +109,15 @@ public class lexical {
                 while((isalnum(String.valueOf(this.code.charAt(end))))){
                     peek = end + 1;
                     try {
-                        if (!isalnum(String.valueOf(this.code.charAt(peek))) || this.code.charAt(peek) == '\0') {
+                        if (String.valueOf(this.code.charAt(peek)).contains(".") && isalnum(String.valueOf(this.code.charAt(peek + 1)))) {
+                            end = peek + 1;
+                            systemFlag = true;
+                        }
+                        else if (!isalnum(String.valueOf(this.code.charAt(peek))) || this.code.charAt(peek) == '\0') {
                             flag = true;
                             break;
-                        } else {
+                        }
+                        else {
                             end++;
                         }
                     }
@@ -122,8 +128,9 @@ public class lexical {
 
                 while(!isalnum(String.valueOf(this.code.charAt(i)))) {
                     peek = end + 1;
-                    if (String.valueOf(this.code.charAt(end)).contains(" ")) {
+                    if (String.valueOf(this.code.charAt(end)).contains(" ") || String.valueOf(this.code.charAt(end)).contains("\n")) {
                         flag = false;
+                        systemFlag = false;
                         break;
                     } else {
 //                        end++;
@@ -147,7 +154,7 @@ public class lexical {
                 else if(constant.dataTypes.contains(codeinput)) {
                     output.add(new container(codeinput,"pp","dataTypes"));
                 }
-                if (constant.operators.contains(codeinput)) {
+                else if (constant.operators.contains(codeinput)) {
                     output.add(new container(codeinput,"pp","operators"));
                 }
                 else if (constant.punctuators.contains(codeinput)) {
@@ -156,17 +163,20 @@ public class lexical {
                 else if (constant.separators.contains(codeinput)) {
                     output.add(new container(codeinput,"pp","separators"));
                 }
+                else if (constant.semicolon.contains(codeinput)) {
+                    output.add(new container(codeinput,"pp","semicolon"));
+                }
                 else {
-                    if(flag) {
+                    if(systemFlag) {
+                        output.add(new container(codeinput, "pp", "statement"));
+                    }
+                    else if(flag) {
                         output.add(new container(codeinput, "pp", "variables"));
                     }
                     else{
                         System.out.println("i am a whitespace");
                     }
-
-                    }
-
-
+                }
             }
 
 //            else if(!(isalnum(String.valueOf(this.code.charAt(i))))) {

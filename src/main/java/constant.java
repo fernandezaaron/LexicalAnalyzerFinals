@@ -22,11 +22,11 @@ public class constant {
     );
 
     static ArrayList <String> operators = new ArrayList<>(
-            Arrays.asList("=", "+", "-", "/", "*", "!", "&&", "||")
+            Arrays.asList("=", "+", "-", "/", "*", "!")
     );
     static ArrayList <String> punctuators = new ArrayList<>(
             Arrays.asList("!", "%", "^", "&",  "|", "~",
-                     ":", "<", ">", "?", ".", "#")
+                     ":", "<", ">", "?", "#")
     );
     static ArrayList<String> separators = new ArrayList<>(
             Arrays.asList("{", "}", "[", "]", "(", ")", ",")
