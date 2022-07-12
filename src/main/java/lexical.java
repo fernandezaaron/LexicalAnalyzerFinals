@@ -196,48 +196,34 @@ public class lexical {
             if((isalnum(String.valueOf(this.code.charAt(i))))){
                 while((end < this.code.length())){
                     peek = end + 1;
-                    if(this.code.charAt(peek) == '.'){
-                        end++;
-                        continue;
+                    try {
+                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == ';' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
+//                            flag = true;
+                            break;
+                        }
+                        else {
+                            end++;
+                        }
                     }
-                    if(this.code.charAt(peek) == '('){
+                    catch (StringIndexOutOfBoundsException e) {
                         break;
                     }
-                    if(this.code.charAt(peek) == ';'){
-                        break;
-                    }else {
-                        end++;
-                    }
-//                    try {
-//                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == ';' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
-////                            flag = true;
-//                            break;
-//                        }
-//                        else {
-//                            end++;
-//                        }
-//                    }
-//                    catch (StringIndexOutOfBoundsException e) {
-//                        break;
-//                    }
 
                 }
-                codeinput = this.code.substring(start, peek); //System.out.println
-
-
+                codeinput = this.code.substring(start, peek);
                 if(constant.keywords.contains(codeinput)){
-                    System.out.println("Dumaan ako dito sa regex");
                     peek++;
                     if (this.code.charAt(peek) == '.'){
                         continue;
                     }
-
+                    else if (this.code.charAt(peek) == '('){
+                        output.add(new container(codeinput,"pp", "method"));
+                        break;
+                    }
                 }
                 else {
-                    System.out.println("System out dito ako dumadaan");
                     output.add(new container(codeinput,"pp", "variable"));
                 }
-
 //                codeinput = this.code.substring(start, peek);
 //                if(constant.keywords.contains(codeinput)) {
 //                    output.add(new container(codeinput,"pp","keyword"));
