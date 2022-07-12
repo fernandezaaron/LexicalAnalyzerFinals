@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class lexical {
     private ArrayList<container> output;
@@ -7,7 +6,7 @@ public class lexical {
     private String code;
     private String doubleQuote = "\0";
     private int count;
-    private boolean flag = false;
+    private boolean varflag = false;
     private boolean multiFlag = false;
     private boolean singleFlag = false;
     private boolean isUsed = false;
@@ -63,7 +62,7 @@ public class lexical {
                     peek = end + 1;
                     try {
                         if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
-//                           flag = true;
+//                           varflag = true;
                             System.out.println("dumaan");
                             end++;
                             break;
@@ -174,7 +173,7 @@ public class lexical {
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
-                        flag = true;
+                        varflag = true;
                         output.add(new container(codeinput,",","keyword"));
                     }
                     else if(constant.semiKeywords.contains(codeinput)) {
@@ -183,9 +182,10 @@ public class lexical {
                     else if(constant.conditionals.contains(codeinput)) {
                         output.add(new container(codeinput,",","conditionals"));
                     }
+                    //checks if it datatypes contain codeinput and activates varflag since a data type will have a variable name afterwards
                     else if(constant.dataTypes.contains(codeinput)) {
                         output.add(new container(codeinput,",","dataTypes"));
-                        flag = true;
+                        varflag = true;
                     }
                     else if (constant.operators.contains(codeinput)) {
                         output.add(new container(codeinput,",","operators"));
@@ -213,14 +213,17 @@ public class lexical {
                         output.add(new container(codeinput, "USED", "variable"));
                     }
 
-                    else if(flag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
+                    //checks if variable is valid
+                    else if(varflag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
                         output.add(new container(codeinput, ",", "Invalid Variable Name"));
-                        flag = false;
+                        varflag = false;
                     }
-                    else if (flag){
+
+                    //if variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
+                    else if (varflag){
                         output.add(new container(codeinput, "DECLARED BUT NOT USED", "variable"));
                         variableContainer.add(codeinput);
-                        flag = false;
+                        varflag = false;
                     }
                     else if(singleFlag){
                         output.add(new container(codeinput, "n/a", "Single-Line Comment"));
