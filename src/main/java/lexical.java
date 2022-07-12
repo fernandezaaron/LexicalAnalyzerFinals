@@ -68,22 +68,7 @@ public class lexical {
                     }
 
                 }
-                codeinput = this.code.substring(start, peek);
-                if(constant.dataTypes.contains(codeinput) || codeinput.endsWith(")")){
-                    flag = true;
-                }
-
-                if(flag){
-                    if(Character.isDigit(codeinput.charAt(0))){
-                        output.add(new container(codeinput, ",", "Invalid Variable Name"));
-                        flag = false;
-                    }
-
-                }
-                else {
-                    output.add(new container(codeinput, ",", "variable"));
-                }
-
+               // codeinput = this.code.substring(start, peek);
             }
 
             else if(!(isalnum(String.valueOf(this.code.charAt(i))))){
@@ -115,10 +100,7 @@ public class lexical {
                                 System.out.println(start + " " +end);
                                 break;
                             }
-
                         }
-
-
                     }
                     // If the next character is "*"
                     else if(String.valueOf(this.code.charAt(end)).contains("*")){
@@ -133,10 +115,8 @@ public class lexical {
                                 break;
                             }
                         }
-
                     }
                 }
-
                 else if (String.valueOf(this.code.charAt(start)).contains(constant.specialCharacter) && end != this.code.length()-1) {
                     peek = end + 1;
                     while(peek < this.code.length()){
@@ -152,9 +132,7 @@ public class lexical {
                             break;
                         }
                     }
-
                 }
-
                 // END OF READING IF COMMENTS
                 while ((end < this.code.length())){
                     peek = end + 1;
@@ -166,7 +144,6 @@ public class lexical {
                             break;
                         }
                 }
-
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
@@ -181,6 +158,7 @@ public class lexical {
                     }
                     else if(constant.dataTypes.contains(codeinput)) {
                         output.add(new container(codeinput,",","dataTypes"));
+                        flag = true;
                     }
                     else if (constant.operators.contains(codeinput)) {
                         output.add(new container(codeinput,",","operators"));
@@ -197,10 +175,19 @@ public class lexical {
                     else if (codeinput.matches(" ")) {
                         continue;
                     }
-
+                    else if(flag && Character.isDigit(codeinput.charAt(0))){
+                        output.add(new container(codeinput, ",", "Invalid Variable Name"));
+                        flag = false;
+                    }
+                    else if (flag){
+                        output.add(new container(codeinput, ",", "variable"));
+                        flag = false;
+                    }
+                    else{
+                        output.add(new container(codeinput, ",", "identifier"));
+                    }
             i = end;
         }
-
     }
 
     private boolean isalnum(String val){
