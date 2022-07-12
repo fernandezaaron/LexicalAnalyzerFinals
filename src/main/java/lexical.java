@@ -45,6 +45,7 @@ public class lexical {
             start = i;
             end = i;
             if((isalnum(String.valueOf(this.code.charAt(i))))){
+
                 while((end < this.code.length())){
                     peek = end + 1;
                     try {
@@ -52,6 +53,9 @@ public class lexical {
 //                            flag = true;
                             System.out.println("dumaan");
                             end++;
+                            break;
+                        }
+                        if(!isalnum(String.valueOf(this.code.charAt(peek)))){
                             break;
                         }
                         if(this.code.charAt(peek) == ';'){
@@ -66,8 +70,9 @@ public class lexical {
                     catch (StringIndexOutOfBoundsException e) {
                         break;
                     }
-
+                    i = end;
                 }
+
                // codeinput = this.code.substring(start, peek);
             }
 
@@ -100,6 +105,7 @@ public class lexical {
                                 System.out.println(start + " " +end);
                                 break;
                             }
+
                         }
                     }
                     // If the next character is "*"
@@ -175,7 +181,7 @@ public class lexical {
                     else if (codeinput.matches(" ") || codeinput.matches("\n")) {
                         continue;
                     }
-                    else if(flag && Character.isDigit(codeinput.charAt(0))){
+                    else if(flag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
                         output.add(new container(codeinput, ",", "Invalid Variable Name"));
                         flag = false;
                     }
@@ -191,7 +197,7 @@ public class lexical {
     }
 
     private boolean isalnum(String val){
-        return val != null && val.matches("^[a-zA-Z0-9]*$");
+        return val != null && val.matches("^[a-zA-Z0-9_]*$");
     }
 
 }
