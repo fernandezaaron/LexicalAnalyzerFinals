@@ -46,63 +46,56 @@ public class lexical {
             end = i;
 
 
-//            if((isalnum(String.valueOf(this.code.charAt(i)))) || !(isalnum(String.valueOf(this.code.charAt(i))))) {
-//                // START OF READING IF COMMENTS
-//                if(String.valueOf(this.code.charAt(start)).contains("/") && end != this.code.length()-1) {
-//                    end = start + 1;
-//                    // Check if the next character has "/"
-//                    if (String.valueOf(this.code.charAt(end)).contains("/")) {
-//
-//                        // Set peek to end + 1 then loop till the code's end
-//                        peek = end + 1;
-//                        while (peek < this.code.length()) {
-////                        System.out.println(this.code.charAt(end) + " - " + end);
-////                        System.out.println(this.code.charAt(peek) + " - " + peek);
-////                        System.out.println("END BEFORE - " + end);
-////                        System.out.println("PEEK BEFORE - " + peek);
-//                            end++;
-//
-//                            // If peek is currently a newline, add that line into the array
-//                            if(this.code.charAt(peek) == '\n'){
-//                                value = this.code.substring(start,end);
-//                                output.add(new container(value, "n/a", "Single-Line Comment"));
-//                                System.out.println(start + " " +end);
-//                                break;
-//                            }
-//                            peek = end + 1;
-//
-//                            // If peek is currently at the last line of the code, add that line into the array
-//                            if(peek == this.code.length()){
-//                                System.out.println(peek + " " + this.code.length());
-//                                value = this.code.substring(start,peek);
-//                                output.add(new container(value, "n/a", "Single-Line Comment"));
-//                                System.out.println(start + " " +end);
-//                                break;
-//                            }
-////                        System.out.println(this.code.charAt(end) + " - " + end);
-////                        System.out.println(this.code.charAt(peek) + " - " + peek);
-////                        System.out.println("END AFTER - " + end);
-////                        System.out.println("PEEK AFTER - " + peek);
-//
-//                        }
-//
-//                    }
-//                    // If the next character is "*"
-//                    else if(String.valueOf(this.code.charAt(end)).contains("*")){
-//                        peek = end + 1;
-//                        while(peek < this.code.length()){
-//                            end++;
-//                            peek = end + 1;
-//                            if(this.code.charAt(end) == '*' && this.code.charAt(peek) == '/'){
-//                                System.out.println(end + " " + peek);
-//                                System.out.println(this.code.substring(start,peek+1));
-//                                output.add(new container(this.code.substring(start,peek+1), "n/a", "Multi-Line Comment"));
-//                                break;
-//                            }
-//                        }
-//
-//                    }
-//                }
+            if((isalnum(String.valueOf(this.code.charAt(i)))) || !(isalnum(String.valueOf(this.code.charAt(i))))) {
+                // START OF READING IF COMMENTS
+                if (String.valueOf(this.code.charAt(start)).contains("/") && end != this.code.length() - 1) {
+                    end = start + 1;
+                    // Check if the next character has "/"
+                    if (String.valueOf(this.code.charAt(end)).contains("/")) {
+
+                        // Set peek to end + 1 then loop till the code's end
+                        peek = end + 1;
+                        while (peek < this.code.length()) {
+                            end++;
+
+                            // If peek is currently a newline, add that line into the array
+                            if (this.code.charAt(peek) == '\n') {
+                                value = this.code.substring(start, end);
+                                output.add(new container(value, "n/a", "Single-Line Comment"));
+                                System.out.println(start + " " + end);
+                                break;
+                            }
+                            peek = end + 1;
+
+                            // If peek is currently at the last line of the code, add that line into the array
+                            if (peek == this.code.length()) {
+                                System.out.println(peek + " " + this.code.length());
+                                value = this.code.substring(start, peek);
+                                output.add(new container(value, "n/a", "Single-Line Comment"));
+                                System.out.println(start + " " + end);
+                                break;
+                            }
+
+                        }
+
+                    }
+                    // If the next character is "*"
+                    else if (String.valueOf(this.code.charAt(end)).contains("*")) {
+                        peek = end + 1;
+                        while (peek < this.code.length()) {
+                            end++;
+                            peek = end + 1;
+                            if (this.code.charAt(end) == '*' && this.code.charAt(peek) == '/') {
+                                System.out.println(end + " " + peek);
+                                System.out.println(this.code.substring(start, peek + 1));
+                                output.add(new container(this.code.substring(start, peek + 1), "n/a", "Multi-Line Comment"));
+                                break;
+                            }
+                        }
+
+                    }
+                }
+            }
 //
 //                // END OF READING IF COMMENTS
 //
@@ -224,25 +217,7 @@ public class lexical {
                 else {
                     output.add(new container(codeinput,"pp", "variable"));
                 }
-//                codeinput = this.code.substring(start, peek);
-//                if(constant.keywords.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","keyword"));
-//                }
-//                else if(constant.semiKeywords.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","semiKeywords"));
-//                }
-//                else if(constant.conditionals.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","conditionals"));
-//                }
-//                else if(constant.dataTypes.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","dataTypes"));
-//                }
-////                else if(flag) {
-////                    output.add(new container(codeinput, "pp", "variables"));
-////                }
-//                else {
-//                    output.add(new container(codeinput, "pp", "Syntax Error"));
-//                }
+
             }
 
             else if(!(isalnum(String.valueOf(this.code.charAt(i))))){
@@ -255,10 +230,6 @@ public class lexical {
                         // Set peek to end + 1 then loop till the code's end
                         peek = end + 1;
                         while (peek < this.code.length()) {
-//                        System.out.println(this.code.charAt(end) + " - " + end);
-//                        System.out.println(this.code.charAt(peek) + " - " + peek);
-//                        System.out.println("END BEFORE - " + end);
-//                        System.out.println("PEEK BEFORE - " + peek);
                             end++;
 
                             // If peek is currently a newline, add that line into the array
@@ -278,10 +249,6 @@ public class lexical {
                                 System.out.println(start + " " +end);
                                 break;
                             }
-//                        System.out.println(this.code.charAt(end) + " - " + end);
-//                        System.out.println(this.code.charAt(peek) + " - " + peek);
-//                        System.out.println("END AFTER - " + end);
-//                        System.out.println("PEEK AFTER - " + peek);
 
                         }
 
@@ -310,12 +277,6 @@ public class lexical {
                         end++;
                         peek = end + 1;
                         if(this.code.charAt(end) == '\"'){
-//                            if(this.code.charAt(peek) == ')') {
-//                                output.add(new container(this.code.substring(start,peek+1), "n/a", "Statement"));
-//                            }
-//                            else if(this.code.charAt(peek) == ';') {
-//                                output.add(new container(this.code.substring(start,peek+1), "n/a", "String Value"));
-//                            }
                             if(this.code.charAt(peek) == ')') {
                                 doubleQuote = "Statement";
                             }
@@ -346,22 +307,6 @@ public class lexical {
                         }
                 }
 
-//                    codeinput = this.code.substring(start, peek);
-//                    if (constant.operators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","operators"));
-//                    }
-//                    else if (constant.punctuators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","punctuators"));
-//                    }
-//                    else if (constant.separators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","separators"));
-//                    }
-//                    else if (constant.semicolon.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","semicolon"));
-//                    }
-//                    else {
-//                        output.add(new container(codeinput,"pp","special character"));
-//                    }
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
@@ -414,92 +359,3 @@ public class lexical {
     }
 
 }
-
-
-
-//            if (isalnum(String.valueOf(this.code.indexOf(i)))) {
-//                while (isalnum(String.valueOf(this.code.indexOf(end)))) {
-////                        peek = end + 1;
-////                        if (!isalnum(String.valueOf(this.code.indexOf(peek))) && (String.valueOf(this.code.indexOf(peek)) != "\0")) {
-////                            break;
-////                        } else {
-////
-//                  end++;
-//                    }
-//                }
-//                value = value.substring(start, peek - start);
-//                if (check(value, constant.keywords)) {
-//                    System.out.println(value + " - is a keyword" );
-//                } else {
-//                    System.out.println(value + " - is an Identifier" );
-//                }
-//            } else {
-//                while (!isalnum(String.valueOf(this.code.indexOf(end)))) {
-//                    peek = end;
-//                    if ((String.valueOf(this.code.indexOf(peek)) != "\0")) {
-//                        break;
-//                    } else {
-//                        end++;
-//                    }
-//                }
-//                value = value.substring(start, 1);
-//                if (check(value, constant.punctuators)) {
-//                    System.out.println(value + " - is a Punctuator" );
-//                } else if (check(value, constant.operators)) {
-//                    System.out.println(value + " - is an Operator" );
-//                } else {
-//                    System.out.println(value + " -  does not exist" );
-//                }
-//            }
-//            i = end;
-
-
-
-
-
-//    public static void lexicalSolver(String word[]) {
-//        int start = 0;
-//        int end = 0;
-//        int peek = 0;
-//        String value = "";
-//
-//        for (int i = 0; i < word.length; i++) {
-//            start = i;
-//            end = i;
-//            if (isalnum(word[i])) {
-//                while (isalnum(word[end])) {
-//                    peek = end + 1;
-//                    if (!isalnum(word[peek]) && (word[peek] != "\0")) {
-//                        break;
-//                    } else {
-//                        end++;
-//                    }
-//                }
-//                value = value.substring(start, peek - start);
-//                if (check(value, constant.keywords)) {
-//                    System.out.println(value + " - is a keyword" );
-//                } else {
-//                    System.out.println(value + " - is an Identifier" );
-//                }
-//            } else {
-//                while (!isalnum(word[end])) {
-//                    peek = end;
-//                    if ((word[peek] != "\0")) {
-//                        break;
-//                    } else {
-//                        end++;
-//                    }
-//                }
-//                value = value.substring(start, 1);
-//                if (check(value, constant.punctuators)) {
-//                    System.out.println(value + " - is a Punctuator" );
-//                } else if (check(value, constant.operators)) {
-//                    System.out.println(value + " - is an Operator" );
-//                } else {
-//                    System.out.println(value + " -  does not exist" );
-//                }
-//            }
-//            i = end;
-//        }
-//    }
-//}
