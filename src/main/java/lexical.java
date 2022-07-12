@@ -222,14 +222,16 @@ public class lexical {
 //                    }
 
                 }
-                codeinput = this.code.substring(start, peek);
+                codeinput = this.code.substring(start, peek); //System.out.println
+
+
                 if(constant.keywords.contains(codeinput)){
                     System.out.println("Dumaan ako dito sa regex");
                     peek++;
                     if (this.code.charAt(peek) == '.'){
                         continue;
                     }
-                    output.add(new container(codeinput,"pp", "method"));
+
                 }
                 else {
                     System.out.println("System out dito ako dumadaan");
