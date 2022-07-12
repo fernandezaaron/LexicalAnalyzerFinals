@@ -8,6 +8,8 @@ public class lexical {
     private int count;
     private boolean flag = true;
     private boolean systemFlag = true;
+    private boolean semicolonFlag = false;
+    private boolean separateFlag = false;
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -49,12 +51,14 @@ public class lexical {
                     peek = end + 1;
                     try {
                         if(this.code.charAt(peek) == ';'){
-                            System.out.println(this.code.charAt(start) + " " + this.code.charAt(peek));
-                            output.add(new container(this.code.substring(start,peek+1), "n/a", "Statement"));
+                            semicolonFlag = false;
                             break;
                         }
-                        else if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
-//                            flag = true;
+                        else if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ' ') {
+                            break;
+                        }
+                        else if (this.code.charAt(peek) == ',') {
+                            separateFlag = true;
                             break;
                         }
                         else {
@@ -69,47 +73,17 @@ public class lexical {
                 codeinput = this.code.substring(start, peek);
                 if(constant.keywords.contains(codeinput) || codeinput.endsWith(")")){
                     output.add(new container(codeinput, "asd", "method"));
-//                    while(start != codeinput.length()){
-//                        peek++;
-//                        if (this.code.charAt(peek) == '.'){
-//                            if(constant.keywords.contains(this.code.substring(start,peek-1))){
-//                                //continue;
-//                            }
-//
-//                        }
-//                    }
-//                    peek++;
-//                    if (this.code.charAt(peek) == '.'){
-//                        continue;
-//                    }
-//                    else if (this.code.charAt(peek) == '('){
-//                        output.add(new container(codeinput,"pp", "method"));
-//                        break;
-//                    }
                 }
-
+                else if (semicolonFlag && separateFlag) {
+                    output.add(new container(codeinput,"pp", "variable"));
+                    separateFlag = false;
+                }
+                else if (semicolonFlag && !codeinput.endsWith(";")) {
+                    output.add(new container("error", "err", "err"));
+                }
                 else {
                     output.add(new container(codeinput,"pp", "variable"));
                 }
-//                codeinput = this.code.substring(start, peek);
-//                if(constant.keywords.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","keyword"));
-//                }
-//                else if(constant.semiKeywords.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","semiKeywords"));
-//                }
-//                else if(constant.conditionals.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","conditionals"));
-//                }
-//                else if(constant.dataTypes.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","dataTypes"));
-//                }
-////                else if(flag) {
-////                    output.add(new container(codeinput, "pp", "variables"));
-////                }
-//                else {
-//                    output.add(new container(codeinput, "pp", "Syntax Error"));
-//                }
             }
 
             else if(!(isalnum(String.valueOf(this.code.charAt(i))))){
@@ -186,55 +160,28 @@ public class lexical {
                     peek = end + 1;
 
                         if (String.valueOf(this.code.charAt(end)).contains(" ")) {
-//                        flag = false;
-//                        systemFlag = false;
                             break;
                         }
                         else {
-                            //output.add(new container(this.code.substring(start,peek), "n/a", "Statement"));
-//                        end++;
-//                        flag = true;
-//                        systemFlag = false;
-//                        System.out.println("daan dito");
-//                        end--;
                             break;
                         }
                 }
-
-//                    codeinput = this.code.substring(start, peek);
-//                    if (constant.operators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","operators"));
-//                    }
-//                    else if (constant.punctuators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","punctuators"));
-//                    }
-//                    else if (constant.separators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","separators"));
-//                    }
-//                    else if (constant.semicolon.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","semicolon"));
-//                    }
-//                    else {
-//                        output.add(new container(codeinput,"pp","special character"));
-//                    }
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
                         output.add(new container(codeinput,"pp","keyword"));
                     }
                     else if(constant.semiKeywords.contains(codeinput)) {
+                        semicolonFlag = true;
                         output.add(new container(codeinput,"pp","semiKeywords"));
                     }
                     else if(constant.conditionals.contains(codeinput)) {
                         output.add(new container(codeinput,"pp","conditionals"));
                     }
                     else if(constant.dataTypes.contains(codeinput)) {
+                        semicolonFlag = true;
                         output.add(new container(codeinput,"pp","dataTypes"));
                     }
-//                else if(flag) {
-//                    output.add(new container(codeinput, "pp", "variables"));
-//                }
-
                     else if (constant.operators.contains(codeinput)) {
                         output.add(new container(codeinput,"pp","operators"));
                     }
@@ -244,9 +191,6 @@ public class lexical {
                     else if (constant.separators.contains(codeinput)) {
                         output.add(new container(codeinput,"pp","separators"));
                     }
-//                    else if (constant.semicolon.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","semicolon"));
-//                    }
                     else if (doubleQuote != "\0") {
                         output.add(new container(codeinput, "n/a", doubleQuote));
                     }
@@ -256,9 +200,6 @@ public class lexical {
                     else {
                         output.add(new container(codeinput, "pp", "Syntax Error"));
                     }
-//                    else {
-//                        output.add(new container(codeinput,"pp","special character"));
-//                    }
             i = end;
         }
 
