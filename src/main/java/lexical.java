@@ -53,8 +53,9 @@ public class lexical {
                             output.add(new container(this.code.substring(start,peek+1), "n/a", "Statement"));
                             break;
                         }
-                        else if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
+                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
 //                            flag = true;
+                            System.out.println("dumaan");
                             break;
                         }
                         else {
@@ -66,6 +67,7 @@ public class lexical {
                     }
 
                 }
+
                 codeinput = this.code.substring(start, peek);
                 if(constant.keywords.contains(codeinput) || codeinput.endsWith(")")){
                     output.add(new container(codeinput, "asd", "method"));
