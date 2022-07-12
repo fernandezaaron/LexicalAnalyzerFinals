@@ -6,7 +6,7 @@ public class lexical {
     private String code;
     private String doubleQuote = "\0";
     private int count;
-    private boolean flag = true;
+    private boolean flag = false;
     private boolean systemFlag = true;
     // Constructor is used to save the code
     public lexical(String code){
@@ -48,13 +48,15 @@ public class lexical {
                 while((end < this.code.length())){
                     peek = end + 1;
                     try {
+                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
+//                            flag = true;
+                            System.out.println("dumaan");
+                            end++;
+                            break;
+                        }
                         if(this.code.charAt(peek) == ';'){
                             System.out.println(this.code.charAt(start) + " " + this.code.charAt(peek));
                             output.add(new container(this.code.substring(start,peek+1), "n/a", "Statement"));
-                            break;
-                        }
-                        else if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
-//                            flag = true;
                             break;
                         }
                         else {
@@ -67,49 +69,21 @@ public class lexical {
 
                 }
                 codeinput = this.code.substring(start, peek);
-                if(constant.keywords.contains(codeinput) || codeinput.endsWith(")")){
-                    output.add(new container(codeinput, "asd", "method"));
-//                    while(start != codeinput.length()){
-//                        peek++;
-//                        if (this.code.charAt(peek) == '.'){
-//                            if(constant.keywords.contains(this.code.substring(start,peek-1))){
-//                                //continue;
-//                            }
-//
-//                        }
-//                    }
-//                    peek++;
-//                    if (this.code.charAt(peek) == '.'){
-//                        continue;
-//                    }
-//                    else if (this.code.charAt(peek) == '('){
-//                        output.add(new container(codeinput,"pp", "method"));
-//                        break;
-//                    }
+                if(constant.dataTypes.contains(codeinput) || codeinput.endsWith(")")){
+                    flag = true;
                 }
 
-                else {
-                    output.add(new container(codeinput,"pp", "variable"));
+                if(flag){
+                    if(Character.isDigit(codeinput.charAt(0))){
+                        output.add(new container(codeinput, ",", "Invalid Variable Name"));
+                        flag = false;
+                    }
+
                 }
-//                codeinput = this.code.substring(start, peek);
-//                if(constant.keywords.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","keyword"));
-//                }
-//                else if(constant.semiKeywords.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","semiKeywords"));
-//                }
-//                else if(constant.conditionals.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","conditionals"));
-//                }
-//                else if(constant.dataTypes.contains(codeinput)) {
-//                    output.add(new container(codeinput,"pp","dataTypes"));
-//                }
-////                else if(flag) {
-////                    output.add(new container(codeinput, "pp", "variables"));
-////                }
-//                else {
-//                    output.add(new container(codeinput, "pp", "Syntax Error"));
-//                }
+                else {
+                    output.add(new container(codeinput, ",", "variable"));
+                }
+
             }
 
             else if(!(isalnum(String.valueOf(this.code.charAt(i))))){
@@ -186,79 +160,44 @@ public class lexical {
                     peek = end + 1;
 
                         if (String.valueOf(this.code.charAt(end)).contains(" ")) {
-//                        flag = false;
-//                        systemFlag = false;
                             break;
                         }
                         else {
-                            //output.add(new container(this.code.substring(start,peek), "n/a", "Statement"));
-//                        end++;
-//                        flag = true;
-//                        systemFlag = false;
-//                        System.out.println("daan dito");
-//                        end--;
                             break;
                         }
                 }
 
-//                    codeinput = this.code.substring(start, peek);
-//                    if (constant.operators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","operators"));
-//                    }
-//                    else if (constant.punctuators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","punctuators"));
-//                    }
-//                    else if (constant.separators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","separators"));
-//                    }
-//                    else if (constant.semicolon.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","semicolon"));
-//                    }
-//                    else {
-//                        output.add(new container(codeinput,"pp","special character"));
-//                    }
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
-                        output.add(new container(codeinput,"pp","keyword"));
+                        flag = true;
+                        output.add(new container(codeinput,",","keyword"));
                     }
                     else if(constant.semiKeywords.contains(codeinput)) {
-                        output.add(new container(codeinput,"pp","semiKeywords"));
+                        output.add(new container(codeinput,",","semiKeywords"));
                     }
                     else if(constant.conditionals.contains(codeinput)) {
-                        output.add(new container(codeinput,"pp","conditionals"));
+                        output.add(new container(codeinput,",","conditionals"));
                     }
                     else if(constant.dataTypes.contains(codeinput)) {
-                        output.add(new container(codeinput,"pp","dataTypes"));
+                        output.add(new container(codeinput,",","dataTypes"));
                     }
-//                else if(flag) {
-//                    output.add(new container(codeinput, "pp", "variables"));
-//                }
-
                     else if (constant.operators.contains(codeinput)) {
-                        output.add(new container(codeinput,"pp","operators"));
+                        output.add(new container(codeinput,",","operators"));
                     }
                     else if (constant.punctuators.contains(codeinput)) {
-                        output.add(new container(codeinput,"pp","punctuators"));
+                        output.add(new container(codeinput,",","punctuators"));
                     }
                     else if (constant.separators.contains(codeinput)) {
-                        output.add(new container(codeinput,"pp","separators"));
+                        output.add(new container(codeinput,",","separators"));
                     }
-//                    else if (constant.semicolon.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","semicolon"));
-//                    }
                     else if (doubleQuote != "\0") {
                         output.add(new container(codeinput, "n/a", doubleQuote));
                     }
                     else if (codeinput.matches(" ")) {
                         continue;
                     }
-                    else {
-                        output.add(new container(codeinput, "pp", "Syntax Error"));
-                    }
-//                    else {
-//                        output.add(new container(codeinput,"pp","special character"));
-//                    }
+
             i = end;
         }
 
