@@ -3,27 +3,38 @@ import java.util.Scanner;
 
 public class lexical {
     private ArrayList<container> output;
+    private ArrayList<String> variableContainer;
     private String code;
     private String doubleQuote = "\0";
     private int count;
     private boolean flag = false;
     private boolean multiFlag = false;
     private boolean singleFlag = false;
+    private boolean isUsed = false;
 
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
         output = new ArrayList<>();
+        variableContainer = new ArrayList<>();
         count = 0;
 
     }
     // Show function is used to output the code
     public void show(){
         //System.out.println(code);
-        for (container i: output) {
-//            System.out.println(output.get(String.i.show());
-            i.show();
+//        for (container i: output) {
+////            System.out.println(output.get(String.i.show());
+//            i.show();
+//
+//        }
 
+//        for(String c : variableContainer){
+//            System.out.println(variableContainer.get(Integer.parseInt(c)));
+//        }
+
+        for(int i=0; i<variableContainer.size(); i++){
+            System.out.println(variableContainer.get(i));
         }
         //System.out.println(output.get(0));
     }
@@ -52,7 +63,7 @@ public class lexical {
                     peek = end + 1;
                     try {
                         if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
-//                            flag = true;
+//                           flag = true;
                             System.out.println("dumaan");
                             end++;
                             break;
@@ -74,7 +85,7 @@ public class lexical {
                     }
                     i = end;
                 }
-
+//
                // codeinput = this.code.substring(start, peek);
             }
 
@@ -158,6 +169,8 @@ public class lexical {
                             break;
                         }
                 }
+
+
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
@@ -189,12 +202,31 @@ public class lexical {
                     else if (codeinput.matches(" ") || codeinput.matches("\n")) {
                         continue;
                     }
+                    else if(variableContainer.contains(codeinput)){
+                        System.out.println("dumaan here");
+                        for (container g: output) {
+                            System.out.println("code: "+g.getCode() + " " + codeinput);
+                            if(g.getCode().equals(codeinput)){
+                                g.setValue("USED");
+                            }
+                        }
+                        output.add(new container(codeinput, "USED", "variable"));
+                    }
+//                    else if(!Character.isDigit(codeinput.charAt(0)) && !variableContainer.contains(codeinput)){
+//                        System.out.println("dumaan here");
+//                        for (container g: output) {
+//                            g.setValue("NOT USED");
+//
+//                        }
+//                    }
+
                     else if(flag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
                         output.add(new container(codeinput, ",", "Invalid Variable Name"));
                         flag = false;
                     }
                     else if (flag){
-                        output.add(new container(codeinput, ",", "variable"));
+                        output.add(new container(codeinput, "DECLARED BUT NOT USED", "variable"));
+                        variableContainer.add(codeinput);
                         flag = false;
                     }
                     else if(singleFlag){
