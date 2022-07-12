@@ -134,7 +134,9 @@ public class gui extends JFrame {
         tableModel.addColumn("Value");
         tableModel.addColumn("Output");
 
+
         outputPanel.add(new JScrollPane(table), gridConstraints);
     }
+
 }
 
