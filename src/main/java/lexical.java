@@ -172,7 +172,7 @@ public class lexical {
                     else if (doubleQuote != "\0") {
                         output.add(new container(codeinput, "n/a", doubleQuote));
                     }
-                    else if (codeinput.matches(" ")) {
+                    else if (codeinput.matches(" ") || codeinput.matches("\n")) {
                         continue;
                     }
                     else if(flag && Character.isDigit(codeinput.charAt(0))){
