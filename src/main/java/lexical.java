@@ -7,7 +7,9 @@ public class lexical {
     private String doubleQuote = "\0";
     private int count;
     private boolean flag = false;
-    private boolean systemFlag = true;
+    private boolean multiFlag = false;
+    private boolean singleFlag = false;
+
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
@@ -85,44 +87,50 @@ public class lexical {
 
                         // Set peek to end + 1 then loop till the code's end
                         peek = end + 1;
+                        System.out.println(peek + " < " + this.code.length());
                         while (peek < this.code.length()) {
                             end++;
 
                             // If peek is currently a newline, add that line into the array
                             if(this.code.charAt(peek) == '\n'){
                                 value = this.code.substring(start,end);
-                                output.add(new container(value, "n/a", "Single-Line Comment"));
+                               // output.add(new container(value, "n/a", "Single-Line Comment"));
+                                singleFlag = true;
                                 System.out.println(start + " " +end);
                                 break;
                             }
                             peek = end + 1;
 
-                            // If peek is currently at the last line of the code, add that line into the array
-                            if(peek == this.code.length()){
-                                System.out.println(peek + " " + this.code.length());
-                                value = this.code.substring(start,peek);
-                                output.add(new container(value, "n/a", "Single-Line Comment"));
-                                System.out.println(start + " " +end);
-                                break;
-                            }
+
 
                         }
+                        // If peek is currently at the last line of the code, add that line into the array
+                        if(peek == this.code.length()){
+                            System.out.println(peek + " " + this.code.length());
+//                            value = this.code.substring(start,peek);
+                            singleFlag = true;
+                            System.out.println(start + " " +end);
+                        }
+
                     }
                     // If the next character is "*"
                     else if(String.valueOf(this.code.charAt(end)).contains("*")){
-                        peek = end + 1;
+                        peek = end + 1; //1
+
                         while(peek < this.code.length()){
-                            end++;
+                            end++; //1
                             peek = end + 1;
                             if(this.code.charAt(end) == '*' && this.code.charAt(peek) == '/'){
                                 System.out.println(end + " " + peek);
                                 System.out.println(this.code.substring(start,peek+1));
-                                output.add(new container(this.code.substring(start,peek+1), "n/a", "Multi-Line Comment"));
+                                multiFlag = true;
+                                end++; //1
                                 break;
                             }
                         }
                     }
                 }
+
                 else if (String.valueOf(this.code.charAt(start)).contains(constant.specialCharacter) && end != this.code.length()-1) {
                     peek = end + 1;
                     while(peek < this.code.length()){
@@ -188,6 +196,14 @@ public class lexical {
                     else if (flag){
                         output.add(new container(codeinput, ",", "variable"));
                         flag = false;
+                    }
+                    else if(singleFlag){
+                        output.add(new container(codeinput, "n/a", "Single-Line Comment"));
+                        singleFlag = false;
+                    }
+                    else if(multiFlag){
+                        output.add(new container(this.code.substring(start,peek), "n/a", "Multi-Line Comment"));
+                        multiFlag = false;
                     }
                     else{
                         output.add(new container(codeinput, ",", "identifier"));
