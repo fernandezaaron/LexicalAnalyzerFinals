@@ -212,13 +212,6 @@ public class lexical {
                         }
                         output.add(new container(codeinput, "USED", "variable"));
                     }
-//                    else if(!Character.isDigit(codeinput.charAt(0)) && !variableContainer.contains(codeinput)){
-//                        System.out.println("dumaan here");
-//                        for (container g: output) {
-//                            g.setValue("NOT USED");
-//
-//                        }
-//                    }
 
                     else if(flag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
                         output.add(new container(codeinput, ",", "Invalid Variable Name"));
