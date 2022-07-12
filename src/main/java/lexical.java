@@ -48,7 +48,12 @@ public class lexical {
                 while((end < this.code.length())){
                     peek = end + 1;
                     try {
-                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == ';' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
+                        if(this.code.charAt(peek) == ';'){
+                            System.out.println(this.code.charAt(start) + " " + this.code.charAt(peek));
+                            output.add(new container(this.code.substring(start,peek+1), "n/a", "Statement"));
+                            break;
+                        }
+                        else if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
 //                            flag = true;
                             break;
                         }
@@ -62,16 +67,27 @@ public class lexical {
 
                 }
                 codeinput = this.code.substring(start, peek);
-                if(constant.keywords.contains(codeinput)){
-                    peek++;
-                    if (this.code.charAt(peek) == '.'){
-                        continue;
-                    }
-                    else if (this.code.charAt(peek) == '('){
-                        output.add(new container(codeinput,"pp", "method"));
-                        break;
-                    }
+                if(constant.keywords.contains(codeinput) || codeinput.endsWith(")")){
+                    output.add(new container(codeinput, "asd", "method"));
+//                    while(start != codeinput.length()){
+//                        peek++;
+//                        if (this.code.charAt(peek) == '.'){
+//                            if(constant.keywords.contains(this.code.substring(start,peek-1))){
+//                                //continue;
+//                            }
+//
+//                        }
+//                    }
+//                    peek++;
+//                    if (this.code.charAt(peek) == '.'){
+//                        continue;
+//                    }
+//                    else if (this.code.charAt(peek) == '('){
+//                        output.add(new container(codeinput,"pp", "method"));
+//                        break;
+//                    }
                 }
+
                 else {
                     output.add(new container(codeinput,"pp", "variable"));
                 }
@@ -173,7 +189,9 @@ public class lexical {
 //                        flag = false;
 //                        systemFlag = false;
                             break;
-                        } else if(String.valueOf(this.code.charAt(peek)).contains()){
+                        }
+                        else {
+                            //output.add(new container(this.code.substring(start,peek), "n/a", "Statement"));
 //                        end++;
 //                        flag = true;
 //                        systemFlag = false;
