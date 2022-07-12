@@ -168,14 +168,12 @@ public class lexical {
                 // END OF READING IF COMMENTS
                 while ((end < this.code.length())){
                     peek = end + 1;
-                    System.out.println("im here1");
                         if (String.valueOf(this.code.charAt(end)).contains(" ")) {
 //                        flag = false;
 //                        systemFlag = false;
-                            System.out.println("im here2");
                             break;
                         } if(String.valueOf(this.code.charAt(peek)).contains(";")){
-                        System.out.println("im here3");
+
                             output.add(new container(this.code.substring(start,peek),"n/a","Statement"));
 //                        end++;
 //                        flag = true;
