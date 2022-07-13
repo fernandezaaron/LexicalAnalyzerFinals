@@ -1,5 +1,8 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Element;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -16,10 +19,13 @@ public class gui extends JFrame {
 
     // Input Field
     public static JTextArea textArea;
+    public static JTextArea numberLines;
+
 
     // Output Field
     public static DefaultTableModel tableModel;
     public static JTable table;
+
 
     // Buttons
     public static JButton enterButton;
@@ -65,6 +71,7 @@ public class gui extends JFrame {
     }
     public void setScrollPane(){
         scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setRowHeaderView(numberLines);
         inputPanel.add(scrollPane);
     }
     public void setLabel(){
@@ -81,8 +88,45 @@ public class gui extends JFrame {
     public void setInput(){
         textArea = new JTextArea();
 
+        setNumberLines(textArea);
+
+
+
         textArea.setBounds(17, 10, inputPanel.getWidth() - inputPanel.getWidth() / 10, inputPanel.getHeight() - inputPanel.getWidth() / 20);
         inputPanel.add(textArea);
+
+    }
+
+    public void setNumberLines(JTextArea textArea){
+        numberLines = new JTextArea("1");
+        numberLines.setBackground(Color.GRAY);
+        numberLines.setEditable(false);
+
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            public String getText(){
+                int position = textArea.getDocument().getLength();
+                Element root = textArea.getDocument().getDefaultRootElement();
+                String text = "1" + System.getProperty("line.separator");
+                for(int i=2; i<root.getElementIndex(position) + 2; i++){
+                    text += i +System.getProperty("line.separator");
+                }
+                return text;
+            }
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                numberLines.setText(getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                numberLines.setText(getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                numberLines.setText(getText());
+            }
+        });
     }
     public void setButton(){
         enterButton = new JButton("Enter");
@@ -144,11 +188,6 @@ public class gui extends JFrame {
 
 
         outputPanel.add(new JScrollPane(table), gridConstraints);
-    }
-
-    //Disallow the editing of any cell
-    public boolean isCellEditable(int rowIndex, int colIndex) {
-        return false;
     }
 
 }

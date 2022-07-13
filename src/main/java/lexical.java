@@ -6,12 +6,12 @@ public class lexical {
     private String code;
     private String doubleQuote = "\0";
     private int count;
-    private boolean varflag = false;
+    private boolean varFlag = false;
     private boolean multiFlag = false;
     private boolean singleFlag = false;
-    private boolean methodFlag = false;
+    private boolean functionFlag = false;
+    private boolean methodFlag =false;
     private boolean thisFlag = false;
-
 
     // Constructor is used to save the code
     public lexical(String code){
@@ -64,13 +64,18 @@ public class lexical {
                     peek = end + 1;
                     try {
                         if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
-//                           varflag = true;
+//                           varFlag = true;
                             System.out.println("dumaan");
                             end++;
                             break;
                         }
                         if(this.code.charAt(peek) == '.'){
                             methodFlag = true;
+                        }
+                        if(varFlag && this.code.charAt(peek) == '('){
+                            functionFlag = true;
+                            varFlag = false;
+                            break;
                         }
                         if(!isalnum(String.valueOf(this.code.charAt(peek)))){
                             break;
@@ -173,15 +178,13 @@ public class lexical {
                             break;
                         }
                 }
-
-
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
-                        if(codeinput == "this"){
+                        if(codeinput.equals("this")){
                             thisFlag = true;
                         }
-                        varflag = true;
+                        varFlag = true;
                         output.add(new container(codeinput,",","keyword"));
                     }
                     else if(constant.semiKeywords.contains(codeinput)) {
@@ -190,10 +193,10 @@ public class lexical {
                     else if(constant.conditionals.contains(codeinput)) {
                         output.add(new container(codeinput,",","conditionals"));
                     }
-                    //checks if it datatypes contain codeinput and activates varflag since a data type will have a variable name afterwards
+                    //checks if it datatypes contain codeinput and activates varFlag since a data type will have a variable name afterwards
                     else if(constant.dataTypes.contains(codeinput)) {
                         output.add(new container(codeinput,",","dataTypes"));
-                        varflag = true;
+                        varFlag = true;
                     }
                     else if (constant.operators.contains(codeinput)) {
                         output.add(new container(codeinput,",","operators"));
@@ -210,44 +213,76 @@ public class lexical {
                     else if (codeinput.matches(" ") || codeinput.matches("\n")) {
                         continue;
                     }
-
                     else if(variableContainer.contains(codeinput)){
                         System.out.println("dumaan here");
-                        for (container g: output) {
-                            System.out.println("code: "+g.getCode() + " " + codeinput);
-                            if(g.getCode().equals(codeinput)){
-                                g.setValue("USED");
-                            }
-                        }
+//                        for (container g: output) {
+//                            System.out.println("code: "+g.getCode() + " " + codeinput);
+//                            if(g.getCode().equals(codeinput)){
+//                                g.setValue("USED");
+//                            }
+//                        }
                         output.add(new container(codeinput, "USED", "variable"));
                     }
+
                     //checks if variable is valid
-                    else if(varflag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
+                    else if(varFlag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
                         output.add(new container(codeinput, ",", "Invalid Variable Name"));
-                        varflag = false;
-                    }
-                    //if variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
-                    else if (varflag){
-                        output.add(new container(codeinput, "DECLARED BUT NOT USED", "variable"));
-                        variableContainer.add(codeinput);
-                        varflag = false;
+                        varFlag = false;
                     }
 
-                    else if(varflag && thisFlag){
-                        output.add(new container(codeinput, "Declared", "Declared"));
+                    //if variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
+                    else if (varFlag){
+
+                        output.add(new container(codeinput, "aDECLARED BUT NOT USED", "variable", false));
+                        variableContainer.add(codeinput);
+
+                        for(int j=0; j<output.size(); j++){
+                            if(!variableContainer.contains(codeinput) && !output.get(j).isUsed()){
+                                output.get(j).setValue("no data");
+                                //output.add(new container(codeinput, "no data", "variable", false));
+                            }else{
+                                output.get(j).setValue("used");
+                                //output.add(new container(codeinput, "used", "variable", true));
+                            }
+                        }
+
+
+
+
+//
+//                        if(!variableContainer.contains(codeinput)){
+//                              for (container g: output) {
+//                                System.out.println("code: "+g.getCode() + " " + codeinput);
+//                                if(g.getCode().equals(codeinput)){
+//                                    g.setValue("USED");
+//                                }else{
+//                                    g.setValue("No data");
+//                                    break;
+//                                }
+//                              }
+//                        }
+
+
+
+                        varFlag = false;
+
+
                     }
-                    else if (!variableContainer.contains(codeinput) && !Character.isDigit(codeinput.charAt(0))){
+
+                    else if(!variableContainer.contains(codeinput)  && !Character.isDigit(codeinput.charAt(0))){
                         if(methodFlag){
                             output.add(new container(codeinput, ",", "Method"));
                             methodFlag = false;
+                        }else{
+                            output.add(new container(codeinput, "Error", "Cannot Resolve Symbol"));
                         }
-                        else{
-                        output.add(new container(codeinput, "Not Declared", "Cannot resolve symbol"));
-                        variableContainer.add(codeinput);
-                        }
+
                     }
-
-
+                    else if(functionFlag){
+                        output.add(new container(codeinput, "", "Function Name"));
+                        functionFlag = false;
+                        //System.out.println("im here :D");
+                    }
                     else if(singleFlag){
                         output.add(new container(codeinput, "n/a", "Single-Line Comment"));
                         singleFlag = false;
