@@ -98,6 +98,7 @@ public class gui extends JFrame {
                 // Add here the code for logic
 
                 int rowCount = tableModel.getRowCount();
+                int colCount = tableModel.getColumnCount();
                 String code = textArea.getText();
                 if(rowCount > 0){
                     //Remove rows one by one from the end of the table
@@ -110,6 +111,7 @@ public class gui extends JFrame {
                 lexical.show();
                 lexical.addRow();
                 // Add here the code for logic
+                table.setEnabled(false);
                 textArea.setEnabled(false);
                 enterButton.setEnabled(false);
                 editButton.setEnabled(true);
@@ -142,6 +144,11 @@ public class gui extends JFrame {
 
 
         outputPanel.add(new JScrollPane(table), gridConstraints);
+    }
+
+    //Disallow the editing of any cell
+    public boolean isCellEditable(int rowIndex, int colIndex) {
+        return false;
     }
 
 }
