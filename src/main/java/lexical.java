@@ -7,37 +7,21 @@ public class lexical {
     private ArrayList<String> variableContainer;
     private String code;
     private String doubleQuote = "\0";
-    private int count;
     private boolean varFlag = false;
     private boolean multiFlag = false;
     private boolean singleFlag = false;
     private boolean functionFlag = false;
     private boolean methodFlag =false;
-    private boolean thisFlag = false;
 
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
         output = new ArrayList<>();
         variableContainer = new ArrayList<>();
-        count = 0;
+
 
     }
-    // Show function is used to output the code
-    public void show(){
-        //System.out.println(code);
-//        for (container i: output) {
-////            System.out.println(output.get(String.i.show());
-//            i.show();
-//
-//        }
-
-//        for(String c : variableContainer){
-//            System.out.println(variableContainer.get(Integer.parseInt(c)));
-//        }
-        //System.out.println(output.get(0));
-    }
-
+    // addRow function is used to output the code
     public void addRow(){
         for(container i : output){
             gui.tableModel.addRow(new Object[]{i.getCode(), i.getValue(), i.getIdentify()});
@@ -61,8 +45,7 @@ public class lexical {
                 while((end < this.code.length())){
                     peek = end + 1;
                     try {
-                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
-//                           varFlag = true;
+                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ' || this.code.charAt(peek) == '\t') {
                             end++;
                             break;
                         }
@@ -90,8 +73,6 @@ public class lexical {
                     }
                     i = end;
                 }
-//
-               // codeinput = this.code.substring(start, peek);
             }
 
             else if(!(isalnum(String.valueOf(this.code.charAt(i))))){
@@ -120,7 +101,6 @@ public class lexical {
                         }
                         // If peek is currently at the last line of the code, add that line into the array
                         if(peek == this.code.length()){
-//                            value = this.code.substring(start,peek);
                             singleFlag = true;
                         }
 
@@ -171,9 +151,6 @@ public class lexical {
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
-                        if(codeinput.equals("this")){
-                            thisFlag = true;
-                        }
                         varFlag = true;
                         output.add(new container(codeinput,",","keyword"));
                     }
@@ -197,18 +174,26 @@ public class lexical {
                     else if (constant.separators.contains(codeinput)) {
                         output.add(new container(codeinput,",","separators"));
                     }
+                    else if (constant.boolTypes.contains(codeinput)) {
+                        output.add(new container(codeinput, ",", "boolean"));
+                    }
                     else if (doubleQuote != "\0") {
                         output.add(new container(codeinput, "n/a", doubleQuote));
+                        doubleQuote = "\0";
                     }
-                    else if (codeinput.matches(" ") || codeinput.matches("\n")) {
+                    else if (codeinput.matches(" ") || codeinput.matches("\n") || codeinput.matches("\t")) {
                         continue;
                     }
+                    else if(singleFlag){
+                        output.add(new container(codeinput, "n/a", "Single-Line Comment"));
+                        singleFlag = false;
+                    }
+                    else if(multiFlag){
+                        output.add(new container(this.code.substring(start,peek), "n/a", "Multi-Line Comment"));
+                        multiFlag = false;
+                    }
                     else if(variableContainer.contains(codeinput)){
-                        for(container c: output){
-                            if(c.getValue() == "Declared" && !duplicate(variableContainer)){
-                                c.setValue("Not USED");
-                            }
-                        }
+                        variableContainer.add(codeinput);
                         output.add(new container(codeinput, "USED", "variable"));
                     }
 
@@ -221,17 +206,14 @@ public class lexical {
                     //if variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
                     else if (varFlag){
 
-//                        if(variableContainer.contains(codeinput) && !duplicate(variableContainer)){
-//                            output.add(new container(codeinput, "asdDECLARED BUT NOT USED", "variable"));
-//                            variableContainer.add(codeinput);
-//                        }
-
                         variableContainer.add(codeinput);
 
-                        System.out.println(duplicate(variableContainer));
 
                         if(!duplicate(variableContainer)){
                             output.add(new container(codeinput, "Declared", "variable"));
+                        }else{
+                            output.add(new container(codeinput, "Not Declaresdsad", "variable"));
+                            variableContainer.add(codeinput);
                         }
                         varFlag = false;
 
@@ -241,24 +223,17 @@ public class lexical {
                         if(methodFlag){
                             output.add(new container(codeinput, ",", "Method"));
                             methodFlag = false;
-                        }else{
-                            output.add(new container(codeinput, "Error", "Cannot Resolve Symbol"));
                         }
+//                        else{
+//                            output.add(new container(codeinput, "Error", "Cannot Resolve Symbol"));
+//                        }
 
                     }
                     else if(functionFlag){
                         output.add(new container(codeinput, "", "Function Name"));
                         functionFlag = false;
-                        //System.out.println("im here :D");
                     }
-                    else if(singleFlag){
-                        output.add(new container(codeinput, "n/a", "Single-Line Comment"));
-                        singleFlag = false;
-                    }
-                    else if(multiFlag){
-                        output.add(new container(this.code.substring(start,peek), "n/a", "Multi-Line Comment"));
-                        multiFlag = false;
-                    }
+
                     else{
                         output.add(new container(codeinput, ",", "identifier"));
                     }
@@ -273,15 +248,13 @@ public class lexical {
     private boolean duplicate(ArrayList<String> words){
         for(int i = 0; i < words.size(); i++) {
             for(int j = i + 1; j < words.size(); j++) {
-                if(words.get(i) == words.get(j)) {
-                    System.out.println(words.get(i) + " TRUE ");
+                if(words.get(i).equals(words.get(j))) {
                     return true;
                 }
             }
         }
         return false;
     }
-
 }
 
 

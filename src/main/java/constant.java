@@ -6,7 +6,7 @@ public class constant {
             Arrays.asList("abstract", "class", "default", "enum", "extends", "implements",
                     "instanceof", "interface", "native", "package", "public", "static",
                     "strictfp", "super", "synchronized", "transient",  "void", "volatile","this",
-                    "System","out","print","println")
+                    "System","out","print","println", "main")
     );
 
     static ArrayList<String> semiKeywords = new ArrayList<>(
@@ -20,6 +20,10 @@ public class constant {
 
     static ArrayList<String> dataTypes = new ArrayList<>(
             Arrays.asList("boolean", "byte", "int", "char", "long", "double", "float", "short", "String")
+    );
+
+    static ArrayList<String> boolTypes = new ArrayList<>(
+            Arrays.asList("true", "false")
     );
 
     static ArrayList <String> operators = new ArrayList<>(

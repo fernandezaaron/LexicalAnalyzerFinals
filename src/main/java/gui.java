@@ -152,7 +152,6 @@ public class gui extends JFrame {
                 }
                 lexical = new lexical(code);
                 lexical.logic();
-                lexical.show();
                 lexical.addRow();
                 // Add here the code for logic
                 table.setEnabled(false);
