@@ -10,6 +10,9 @@ public class lexical {
     private boolean multiFlag = false;
     private boolean singleFlag = false;
     private boolean isUsed = false;
+    private boolean methodFlag = false;
+    private boolean thisFlag = false;
+
 
     // Constructor is used to save the code
     public lexical(String code){
@@ -66,6 +69,9 @@ public class lexical {
                             System.out.println("dumaan");
                             end++;
                             break;
+                        }
+                        if(this.code.charAt(peek) == '.'){
+                            methodFlag = true;
                         }
                         if(!isalnum(String.valueOf(this.code.charAt(peek)))){
                             break;
@@ -173,6 +179,9 @@ public class lexical {
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
+                        if(codeinput == "this"){
+                            thisFlag = true;
+                        }
                         varflag = true;
                         output.add(new container(codeinput,",","keyword"));
                     }
@@ -202,6 +211,7 @@ public class lexical {
                     else if (codeinput.matches(" ") || codeinput.matches("\n")) {
                         continue;
                     }
+
                     else if(variableContainer.contains(codeinput)){
                         System.out.println("dumaan here");
                         for (container g: output) {
@@ -212,19 +222,33 @@ public class lexical {
                         }
                         output.add(new container(codeinput, "USED", "variable"));
                     }
-
                     //checks if variable is valid
                     else if(varflag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
                         output.add(new container(codeinput, ",", "Invalid Variable Name"));
                         varflag = false;
                     }
-
                     //if variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
                     else if (varflag){
                         output.add(new container(codeinput, "DECLARED BUT NOT USED", "variable"));
                         variableContainer.add(codeinput);
                         varflag = false;
                     }
+                    else if(varflag && thisFlag){
+                        output.add(new container(codeinput, "Declared", "Declared"));
+                    }
+                    else if (!variableContainer.contains(codeinput) && !Character.isDigit(codeinput.charAt(0))){
+                        if(methodFlag){
+                            output.add(new container(codeinput, ",", "Method"));
+                            methodFlag = false;
+                        }
+
+                        else{
+                        output.add(new container(codeinput, "Not Declared", "Cannot resolve symbol"));
+                        variableContainer.add(codeinput);
+                        }
+                    }
+
+
                     else if(singleFlag){
                         output.add(new container(codeinput, "n/a", "Single-Line Comment"));
                         singleFlag = false;
