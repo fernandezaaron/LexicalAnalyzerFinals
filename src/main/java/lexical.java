@@ -185,21 +185,21 @@ public class lexical {
                 }
 
 //                    codeinput = this.code.substring(start, peek);
-//                    if (constant.operators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","operators"));
-//                    }
-//                    else if (constant.punctuators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","punctuators"));
-//                    }
-//                    else if (constant.separators.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","separators"));
-//                    }
-//                    else if (constant.semicolon.contains(codeinput)) {
-//                        output.add(new container(codeinput,"pp","semicolon"));
-//                    }
-//                    else {
-//                        output.add(new container(codeinput,"pp","special character"));
-//                    }
+////                    if (constant.operators.contains(codeinput)) {
+////                        output.add(new container(codeinput,"pp","operators"));
+////                    }
+////                    else if (constant.punctuators.contains(codeinput)) {
+////                        output.add(new container(codeinput,"pp","punctuators"));
+////                    }
+////                    else if (constant.separators.contains(codeinput)) {
+////                        output.add(new container(codeinput,"pp","separators"));
+////                    }
+////                    else if (constant.semicolon.contains(codeinput)) {
+////                        output.add(new container(codeinput,"pp","semicolon"));
+////                    }
+////                    else {
+////                        output.add(new container(codeinput,"pp","special character"));
+////                    }
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
