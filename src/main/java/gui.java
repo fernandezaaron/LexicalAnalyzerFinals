@@ -97,8 +97,14 @@ public class gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Add here the code for logic
 
+                int rowCount = tableModel.getRowCount();
                 String code = textArea.getText();
-
+                if(rowCount > 0){
+                    //Remove rows one by one from the end of the table
+                    for (int i = rowCount - 1; i >= 0; i--) {
+                        tableModel.removeRow(i);
+                    }
+                }
                 lexical = new lexical(code);
                 lexical.logic();
                 lexical.show();
