@@ -9,7 +9,6 @@ public class lexical {
     private boolean varflag = false;
     private boolean multiFlag = false;
     private boolean singleFlag = false;
-    private boolean isUsed = false;
     private boolean methodFlag = false;
     private boolean thisFlag = false;
 
@@ -233,6 +232,7 @@ public class lexical {
                         variableContainer.add(codeinput);
                         varflag = false;
                     }
+
                     else if(varflag && thisFlag){
                         output.add(new container(codeinput, "Declared", "Declared"));
                     }
@@ -241,7 +241,6 @@ public class lexical {
                             output.add(new container(codeinput, ",", "Method"));
                             methodFlag = false;
                         }
-
                         else{
                         output.add(new container(codeinput, "Not Declared", "Cannot resolve symbol"));
                         variableContainer.add(codeinput);
