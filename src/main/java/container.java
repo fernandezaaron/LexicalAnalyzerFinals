@@ -2,15 +2,6 @@ public class container {
     private String code;
     private String value;
     private String identify;
-    private boolean used;
-
-    public boolean isUsed() {
-        return used;
-    }
-
-    public void setUsed(boolean used) {
-        this.used = used;
-    }
 
 
     public String getCode() {
@@ -43,15 +34,4 @@ public class container {
         this.identify = identify;
     }
 
-    public container(String code, String value, String identify, boolean used){
-        this.code = code;
-        this.value = value;
-        this.identify = identify;
-        this.used = used;
-    }
-
-
-    public void show(){
-        System.out.println(code + " " + value + " " + identify);
-    }
 }

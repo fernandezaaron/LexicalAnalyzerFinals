@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class lexical {
     private ArrayList<container> output;
@@ -33,10 +35,6 @@ public class lexical {
 //        for(String c : variableContainer){
 //            System.out.println(variableContainer.get(Integer.parseInt(c)));
 //        }
-
-        for(int i=0; i<variableContainer.size(); i++){
-            System.out.println(variableContainer.get(i));
-        }
         //System.out.println(output.get(0));
     }
 
@@ -65,7 +63,6 @@ public class lexical {
                     try {
                         if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ') {
 //                           varFlag = true;
-                            System.out.println("dumaan");
                             end++;
                             break;
                         }
@@ -81,7 +78,6 @@ public class lexical {
                             break;
                         }
                         if(this.code.charAt(peek) == ';'){
-                            System.out.println(this.code.charAt(start) + " " + this.code.charAt(peek));
                             output.add(new container(this.code.substring(start,peek+1), "n/a", "Statement"));
                             break;
                         }
@@ -107,7 +103,6 @@ public class lexical {
 
                         // Set peek to end + 1 then loop till the code's end
                         peek = end + 1;
-                        System.out.println(peek + " < " + this.code.length());
                         while (peek < this.code.length()) {
                             end++;
 
@@ -116,7 +111,6 @@ public class lexical {
                                 value = this.code.substring(start,end);
                                // output.add(new container(value, "n/a", "Single-Line Comment"));
                                 singleFlag = true;
-                                System.out.println(start + " " +end);
                                 break;
                             }
                             peek = end + 1;
@@ -126,10 +120,8 @@ public class lexical {
                         }
                         // If peek is currently at the last line of the code, add that line into the array
                         if(peek == this.code.length()){
-                            System.out.println(peek + " " + this.code.length());
 //                            value = this.code.substring(start,peek);
                             singleFlag = true;
-                            System.out.println(start + " " +end);
                         }
 
                     }
@@ -141,8 +133,6 @@ public class lexical {
                             end++; //1
                             peek = end + 1;
                             if(this.code.charAt(end) == '*' && this.code.charAt(peek) == '/'){
-                                System.out.println(end + " " + peek);
-                                System.out.println(this.code.substring(start,peek+1));
                                 multiFlag = true;
                                 end++; //1
                                 break;
@@ -181,6 +171,9 @@ public class lexical {
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
+                        if(codeinput.equals("this")){
+                            thisFlag = true;
+                        }
                         varFlag = true;
                         output.add(new container(codeinput,",","keyword"));
                     }
@@ -211,14 +204,11 @@ public class lexical {
                         continue;
                     }
                     else if(variableContainer.contains(codeinput)){
-                        System.out.println("dumaan here");
-//                        for (container g: output) {
-//                            System.out.println("code: "+g.getCode() + " " + codeinput);
-//                            if(g.getCode().equals(codeinput)){
-//                                g.setValue("USED");
-//                            }
-//                        }
-//                        variableContainer.add(codeinput);
+                        for(container c: output){
+                            if(c.getValue() == "Declared" && !duplicate(variableContainer)){
+                                c.setValue("Not USED");
+                            }
+                        }
                         output.add(new container(codeinput, "USED", "variable"));
                     }
 
@@ -227,39 +217,27 @@ public class lexical {
                         output.add(new container(codeinput, ",", "Invalid Variable Name"));
                         varFlag = false;
                     }
+
                     //if variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
                     else if (varFlag){
-                        output.add(new container(codeinput, "DECLARED BUT NOT USED", "variable", false));
 
-                        if(variableContainer.isEmpty()){
-                            variableContainer.add(codeinput);
-                        }
-                        if(!variableContainer.contains(codeinput)){
-
-                        }
-
-
-
-
-
-
-//                        if(!variableContainer.contains(codeinput)){
-//                              for (container g: output) {
-//                                System.out.println("code: "+g.getCode() + " " + codeinput);
-//                                if(g.getCode().equals(codeinput)){
-//                                    g.setValue("USED");
-//                                }else{
-//                                    g.setValue("No data");
-//                                    break;
-//                                }
-//                              }
+//                        if(variableContainer.contains(codeinput) && !duplicate(variableContainer)){
+//                            output.add(new container(codeinput, "asdDECLARED BUT NOT USED", "variable"));
+//                            variableContainer.add(codeinput);
 //                        }
 
+                        variableContainer.add(codeinput);
+
+                        System.out.println(duplicate(variableContainer));
+
+                        if(!duplicate(variableContainer)){
+                            output.add(new container(codeinput, "Declared", "variable"));
+                        }
                         varFlag = false;
+
                     }
 
-
-                    else if(!variableContainer.contains(codeinput)  && !Character.isDigit(codeinput.charAt(0)) ){
+                    else if(!variableContainer.contains(codeinput)  && !Character.isDigit(codeinput.charAt(0))){
                         if(methodFlag){
                             output.add(new container(codeinput, ",", "Method"));
                             methodFlag = false;
@@ -290,6 +268,18 @@ public class lexical {
 
     private boolean isalnum(String val){
         return val != null && val.matches("^[a-zA-Z0-9_]*$");
+    }
+
+    private boolean duplicate(ArrayList<String> words){
+        for(int i = 0; i < words.size(); i++) {
+            for(int j = i + 1; j < words.size(); j++) {
+                if(words.get(i) == words.get(j)) {
+                    System.out.println(words.get(i) + " TRUE ");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }
