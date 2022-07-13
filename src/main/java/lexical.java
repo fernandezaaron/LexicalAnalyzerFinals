@@ -10,6 +10,7 @@ public class lexical {
     private boolean multiFlag = false;
     private boolean singleFlag = false;
     private boolean isUsed = false;
+    private boolean functionFlag = false;
 
     // Constructor is used to save the code
     public lexical(String code){
@@ -65,6 +66,11 @@ public class lexical {
 //                           varflag = true;
                             System.out.println("dumaan");
                             end++;
+                            break;
+                        }
+                        if(varflag && this.code.charAt(peek) == '('){
+                            functionFlag = true;
+                            varflag = false;
                             break;
                         }
                         if(!isalnum(String.valueOf(this.code.charAt(peek)))){
@@ -168,8 +174,6 @@ public class lexical {
                             break;
                         }
                 }
-
-
             }
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
@@ -224,6 +228,15 @@ public class lexical {
                         output.add(new container(codeinput, "DECLARED BUT NOT USED", "variable"));
                         variableContainer.add(codeinput);
                         varflag = false;
+                    }
+
+                    else if(!variableContainer.contains(codeinput)  && !Character.isDigit(codeinput.charAt(0))){
+                        output.add(new container(codeinput, "Error", "Cannot Resolve Symbol"));
+                    }
+                    else if(functionFlag){
+                        output.add(new container(codeinput, "", "Function Name"));
+                        functionFlag = false;
+                        //System.out.println("im here :D");
                     }
                     else if(singleFlag){
                         output.add(new container(codeinput, "n/a", "Single-Line Comment"));
