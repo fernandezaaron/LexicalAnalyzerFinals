@@ -45,7 +45,7 @@ public class lexical {
                 while((end < this.code.length())){
                     peek = end + 1;
                     try {
-                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n' || this.code.charAt(peek) == ',' || this.code.charAt(peek) == ' ' || this.code.charAt(peek) == '\t') {
+                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n'  || this.code.charAt(peek) == ' ' || this.code.charAt(peek) == '\t') {
                             end++;
                             break;
                         }
@@ -152,10 +152,10 @@ public class lexical {
                     codeinput = this.code.substring(start, peek);
                     if(constant.keywords.contains(codeinput)) {
                         varFlag = true;
-                        output.add(new container(codeinput,",","keyword"));
+                        output.add(new container(codeinput,",","Keywords"));
                     }
                     else if(constant.semiKeywords.contains(codeinput)) {
-                        output.add(new container(codeinput,",","semiKeywords"));
+                        output.add(new container(codeinput,",","Keywords"));
                     }
                     else if(constant.conditionals.contains(codeinput)) {
                         output.add(new container(codeinput,",","conditionals"));
@@ -172,6 +172,9 @@ public class lexical {
                         output.add(new container(codeinput,",","punctuators"));
                     }
                     else if (constant.separators.contains(codeinput)) {
+                        if(codeinput.equals("(") || codeinput.equals("[")){
+                            varFlag = true;
+                        }
                         output.add(new container(codeinput,",","separators"));
                     }
                     else if (constant.boolTypes.contains(codeinput)) {
@@ -192,6 +195,7 @@ public class lexical {
                         output.add(new container(this.code.substring(start,peek), "n/a", "Multi-Line Comment"));
                         multiFlag = false;
                     }
+
                     else if(variableContainer.contains(codeinput)){
                         variableContainer.add(codeinput);
                         output.add(new container(codeinput, "USED", "variable"));
@@ -212,13 +216,16 @@ public class lexical {
                         if(!duplicate(variableContainer)){
                             output.add(new container(codeinput, "Declared", "variable"));
                         }else{
-                            output.add(new container(codeinput, "Not Declaresdsad", "variable"));
+                            output.add(new container(codeinput, "Not Declared", "variable"));
                             variableContainer.add(codeinput);
                         }
                         varFlag = false;
 
                     }
-
+                    else if(functionFlag){
+                        output.add(new container(codeinput, "", "Function Name"));
+                        functionFlag = false;
+                    }
                     else if(!variableContainer.contains(codeinput)  && !Character.isDigit(codeinput.charAt(0))){
                         if(methodFlag){
                             output.add(new container(codeinput, ",", "Method"));
@@ -229,14 +236,14 @@ public class lexical {
 //                        }
 
                     }
-                    else if(functionFlag){
-                        output.add(new container(codeinput, "", "Function Name"));
-                        functionFlag = false;
-                    }
-
                     else{
                         output.add(new container(codeinput, ",", "identifier"));
                     }
+                     //varFlag = false;
+                    // multiFlag = false;
+                    // singleFlag = false;
+                     functionFlag = false;
+                    // methodFlag =false;
             i = end;
         }
     }
