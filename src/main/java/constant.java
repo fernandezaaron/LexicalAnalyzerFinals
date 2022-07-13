@@ -30,7 +30,7 @@ public class constant {
                      ":", "<", ">", "?", "#")
     );
     static ArrayList<String> separators = new ArrayList<>(
-            Arrays.asList("{", "}", "[", "]", "(", ")", ",",";")
+            Arrays.asList("{", "}", "[", "]", "(", ")", ",",";", ".")
     );
 
 //    static ArrayList<String> specialCharacter = new ArrayList<>(
