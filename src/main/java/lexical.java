@@ -202,6 +202,11 @@ public class lexical {
                 output.add(new container(codeinput,",","Keywords"));
             }
             else if(constant.conditionals.contains(codeinput)) {
+                varFlag = true;
+                functionFlag = false;
+                methodFlag = false;
+                semicolonFlag = false;
+                endstatementFlag = false;
                 output.add(new container(codeinput,",","Conditionals"));
             }
             //checks if it datatypes contain codeinput and activates varFlag since a data type will have a variable name afterwards
@@ -209,16 +214,19 @@ public class lexical {
                 output.add(new container(codeinput,",","Data Types"));
                 semicolonFlag = true;
                 varFlag = true;
+                endstatementFlag=false;
             }
             else if (constant.operators.contains(codeinput)) {
                 output.add(new container(codeinput,",","operators"));
             }
             else if (constant.punctuators.contains(codeinput)) {
+                varFlag = true;
                 output.add(new container(codeinput,",","punctuators"));
             }
             else if (constant.separators.contains(codeinput)) {
                 if(codeinput.equals("(") || codeinput.equals("[")){
                     varFlag = true;
+                    semicolonFlag = false;
                 }
                 output.add(new container(codeinput,",","separators"));
             }
