@@ -71,6 +71,9 @@ public class lexical {
 //                            end++;
 //                        }
 
+                        if(semicolonFlag) {
+                            varFlag = true;
+                        }
                         if(this.code.charAt(peek) == '.'){
                             methodFlag = true;
                             break;
@@ -87,12 +90,12 @@ public class lexical {
                             }
                             break;
                         }
-                        if(!isalnum(String.valueOf(this.code.charAt(peek)))){
-                            break;
-                        }
                         if(this.code.charAt(peek) == ';'){
                             endstatementFlag = true;
                             semicolonFlag = false;
+                            break;
+                        }
+                        if(!isalnum(String.valueOf(this.code.charAt(peek)))){
                             break;
                         }
                         else {
@@ -127,9 +130,6 @@ public class lexical {
                                 break;
                             }
                             peek = end + 1;
-
-
-
                         }
                         // If peek is currently at the last line of the code, add that line into the array
                         if(peek == this.code.length()){
@@ -152,7 +152,9 @@ public class lexical {
                         }
                     }
                 }
+                // END OF READING IF COMMENTS
 
+                // String
                 else if (String.valueOf(this.code.charAt(start)).contains(constant.specialCharacter) && end != this.code.length()-1) {
                     peek = end + 1;
                     while(peek < this.code.length()){
@@ -162,26 +164,36 @@ public class lexical {
                             if(this.code.charAt(peek) == ')') {
                                 doubleQuote = "Statement";
                             }
-                            else if(this.code.charAt(peek) == ';') {
-                                doubleQuote = "String Value";
-                            }
+                            doubleQuote = "String Value";
                             break;
                         }
                     }
                 }
-                // END OF READING IF COMMENTS
+                // end of String
+
+
                 while ((end < this.code.length())){
                     peek = end + 1;
-                        if (String.valueOf(this.code.charAt(end)).contains(" ")) {
+                    try {
+                        if (String.valueOf(this.code.charAt(end)).matches(" ")) {
+                            end++;
                             break;
                         }
                         else {
                             break;
                         }
+                    }
+                    catch (StringIndexOutOfBoundsException e) {
+                        endstatementFlag = true;
+                        break;
+                    }
                 }
             }
             codeinput = this.code.substring(start, peek);
             stringStatement += codeinput;
+            if(Character.isDigit(codeinput.charAt(0))) {
+                varFlag = false;
+            }
             if(constant.keywords.contains(codeinput)) {
                 output.add(new container(codeinput,",","Keywords"));
                 varFlag = true;
@@ -232,7 +244,7 @@ public class lexical {
                 output.add(new container(codeinput, "Error", "Semicolon not found."));
                 semicolonFlag = false;
                 endstatementFlag = false;
-                stringStatement = "";
+                stringStatement = "\0";
             }
             else if(variableContainer.contains(codeinput)){
                 variableContainer.add(codeinput);
