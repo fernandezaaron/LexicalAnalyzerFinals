@@ -4,6 +4,11 @@ public class container {
     private String value;
     private String identify;
 
+    public container(String code, String value, String identify){
+        this.code = code;
+        this.value = value;
+        this.identify = identify;
+    }
 
     public String getCode() {
         return code;
@@ -28,11 +33,4 @@ public class container {
     public void setIdentify(String identify) {
         this.identify = identify;
     }
-
-    public container(String code, String value, String identify){
-        this.code = code;
-        this.value = value;
-        this.identify = identify;
-    }
-
 }

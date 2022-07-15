@@ -42,4 +42,3 @@ public class constant {
 
     static String specialCharacter = "\"";
 }
-

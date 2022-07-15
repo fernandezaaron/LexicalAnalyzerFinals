@@ -71,7 +71,8 @@ public class gui extends JFrame {
     }
     // Used to set JScrollPane
     public void setScrollPane(){
-        scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setRowHeaderView(numberLines);
         inputPanel.add(scrollPane);
     }
@@ -81,8 +82,10 @@ public class gui extends JFrame {
         title[0] = new JLabel("Input");
         title[1] = new JLabel("Output");
 
-        title[0].setBounds(inputPanel.getWidth() - inputPanel.getWidth() / 2, 20, 75, 20);
-        title[1].setBounds((int) ((outputPanel.getWidth() - outputPanel.getWidth() / 3) * 2) + outputPanel.getWidth() / 4, 20, 75, 20);
+        title[0].setBounds(inputPanel.getWidth() - inputPanel.getWidth() / 2,
+                20, 75, 20);
+        title[1].setBounds((int) ((outputPanel.getWidth() - outputPanel.getWidth() / 3) * 2) +
+                outputPanel.getWidth() / 4, 20, 75, 20);
 
         add(title[0]);
         add(title[1]);
@@ -95,7 +98,8 @@ public class gui extends JFrame {
 
         setNumberLines(textArea);
 
-        textArea.setBounds(17, 10, inputPanel.getWidth() - inputPanel.getWidth() / 10, inputPanel.getHeight() - inputPanel.getWidth() / 20);
+        textArea.setBounds(17, 10, inputPanel.getWidth() - inputPanel.getWidth() / 10,
+                inputPanel.getHeight() - inputPanel.getWidth() / 20);
         inputPanel.add(textArea);
     }
 
@@ -192,9 +196,6 @@ public class gui extends JFrame {
         tableModel.addColumn("Value");
         tableModel.addColumn("Output");
 
-
         outputPanel.add(new JScrollPane(table), gridConstraints);
     }
-
 }
-
