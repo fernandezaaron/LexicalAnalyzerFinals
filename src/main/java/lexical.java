@@ -73,16 +73,21 @@ public class lexical {
 //                        else {
 //                            end++;
 //                        }
-                        if(semicolonFlag) {
+                        if(this.code.substring(start, peek) == "\n") {
+                            semicolonFlag = true;
+                        }
+                        if(semicolonFlag || methodFlag) {
                             varFlag = true;
                         }
                         if(this.code.charAt(peek) == '.'){
                             methodFlag = true;
+                            semicolonFlag = true;
                             break;
                         }
                         if(varFlag && this.code.charAt(peek) == '('){
                             functionFlag = true;
                             varFlag = false;
+                            semicolonFlag = true;
                             break;
                         }
                         if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n'  || this.code.charAt(peek) == ' ' || this.code.charAt(peek) == '\t') {
@@ -181,6 +186,10 @@ public class lexical {
                             end++;
                             break;
                         }
+                        if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n') {
+                            endStatementFlag = true;
+                            break;
+                        }
                         else {
                             break;
                         }
@@ -216,7 +225,7 @@ public class lexical {
                 output.add(new container(codeinput,",","Data Types"));
                 semicolonFlag = true;
                 varFlag = true;
-                endStatementFlag =false;
+                endStatementFlag = false;
             }
             else if (constant.operators.contains(codeinput)) {
                 output.add(new container(codeinput,",","operators"));
@@ -224,13 +233,6 @@ public class lexical {
             else if (constant.punctuators.contains(codeinput)) {
                 varFlag = true;
                 output.add(new container(codeinput,",","punctuators"));
-            }
-            else if (constant.separators.contains(codeinput)) {
-                if(codeinput.equals("(") || codeinput.equals("[")){
-                    varFlag = true;
-                    semicolonFlag = false;
-                }
-                output.add(new container(codeinput,",","separators"));
             }
             else if (constant.boolTypes.contains(codeinput)) {
                 output.add(new container(codeinput, ",", "boolean"));
@@ -255,6 +257,14 @@ public class lexical {
                 semicolonFlag = false;
                 endStatementFlag = false;
                 stringStatement = "\0";
+            }
+            else if (constant.separators.contains(codeinput)) {
+                if(codeinput.equals("(") || codeinput.equals("[")){
+                    varFlag = true;
+                    if(!methodFlag)
+                        semicolonFlag = false;
+                }
+                output.add(new container(codeinput,",","separators"));
             }
             else if(variableContainer.contains(codeinput)){
                 variableContainer.add(codeinput);
