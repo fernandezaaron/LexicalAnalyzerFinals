@@ -21,11 +21,9 @@ public class gui extends JFrame {
     public static JTextArea textArea;
     public static JTextArea numberLines;
 
-
     // Output Field
     public static DefaultTableModel tableModel;
     public static JTable table;
-
 
     // Buttons
     public static JButton enterButton;
@@ -58,6 +56,8 @@ public class gui extends JFrame {
 
         setVisible(true);
     }
+
+    // Used to set JPanel
     public void setPanel(){
         inputPanel.setLayout(new BorderLayout(100, 100));
         inputPanel.setBounds(10, 50, 365, 350);
@@ -69,11 +69,14 @@ public class gui extends JFrame {
         outputPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         outputPanel.setBackground(new Color(187, 163, 159));
     }
+    // Used to set JScrollPane
     public void setScrollPane(){
         scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setRowHeaderView(numberLines);
         inputPanel.add(scrollPane);
     }
+
+    // Used to set JLabel
     public void setLabel(){
         title[0] = new JLabel("Input");
         title[1] = new JLabel("Output");
@@ -85,18 +88,18 @@ public class gui extends JFrame {
         add(title[1]);
 
     }
+
+    // Used to set JTextArea
     public void setInput(){
         textArea = new JTextArea();
 
         setNumberLines(textArea);
 
-
-
         textArea.setBounds(17, 10, inputPanel.getWidth() - inputPanel.getWidth() / 10, inputPanel.getHeight() - inputPanel.getWidth() / 20);
         inputPanel.add(textArea);
-
     }
 
+    // Used to set number in the side of JTextArea
     public void setNumberLines(JTextArea textArea){
         numberLines = new JTextArea("1");
         numberLines.setBackground(Color.GRAY);
@@ -128,6 +131,8 @@ public class gui extends JFrame {
             }
         });
     }
+
+    // Used to set JButton
     public void setButton(){
         enterButton = new JButton("Enter");
         editButton = new JButton("Edit");
@@ -172,6 +177,8 @@ public class gui extends JFrame {
         add(enterButton);
         add(editButton);
     }
+
+    // Used to set JTable
     public void setOutput(){
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;

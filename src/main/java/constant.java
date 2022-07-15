@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// This class is used to store all the words in Java Programming Language
 public class constant {
     static ArrayList<String> keywords = new ArrayList<>(
             Arrays.asList("abstract", "class", "default", "enum", "extends", "implements",
@@ -37,11 +38,6 @@ public class constant {
             Arrays.asList("{", "}", "[", "]", "(", ")", ",",";", ".")
     );
 
-//    static ArrayList<String> specialCharacter = new ArrayList<>(
-//            Arrays.asList("\n", ".")
-//    );
-    static String semicolon = ";";
-    static String whitespace = " ";
     static String specialCharacter = "\"";
 }
 

@@ -1,27 +1,31 @@
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class lexical {
     private ArrayList<container> output;
     private ArrayList<String> variableContainer;
     private String code;
-    private String doubleQuote = "\0";
-    private boolean varFlag = false;
-    private boolean multiFlag = false;
-    private boolean singleFlag = false;
-    private boolean functionFlag = false;
-    private boolean methodFlag = false;
-    private boolean semicolonFlag = false;
-    private boolean endstatementFlag = false;
+    private String doubleQuote;
+    private boolean varFlag;
+    private boolean multiFlag;
+    private boolean singleFlag;
+    private boolean functionFlag;
+    private boolean methodFlag;
+    private boolean semicolonFlag;
+    private boolean endStatementFlag;
 
     // Constructor is used to save the code
     public lexical(String code){
         this.code = code;
         output = new ArrayList<>();
         variableContainer = new ArrayList<>();
-
-
+        doubleQuote = "\0";
+        varFlag = false;
+        multiFlag = false;
+        singleFlag = false;
+        functionFlag = false;
+        methodFlag = false;
+        semicolonFlag = false;
+        endStatementFlag = false;
     }
     // addRow function is used to output the code
     public void addRow(){
@@ -35,7 +39,6 @@ public class lexical {
         int start = 0;
         int end = 0;
         int peek = 0;
-        int intStatement = 0;
         String codeinput = "";
         String value = "";
         String stringStatement = "";
@@ -44,7 +47,7 @@ public class lexical {
         for (int i = 0; i < this.code.length(); i++) {
             start = i;
             end = i;
-            if((isalnum(String.valueOf(this.code.charAt(i))))){
+            if((isAlNum(String.valueOf(this.code.charAt(i))))){
                 while((end < this.code.length())){
                     peek = end + 1;
                     try {
@@ -86,16 +89,16 @@ public class lexical {
                         if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n'  || this.code.charAt(peek) == ' ' || this.code.charAt(peek) == '\t') {
                             end++;
                             if (this.code.charAt(peek) == '\0' || this.code.charAt(peek) == '\n') {
-                                endstatementFlag = true;
+                                endStatementFlag = true;
                             }
                             break;
                         }
                         if(this.code.charAt(peek) == ';'){
-                            endstatementFlag = true;
+                            endStatementFlag = true;
                             semicolonFlag = false;
                             break;
                         }
-                        if(!isalnum(String.valueOf(this.code.charAt(peek)))){
+                        if(!isAlNum(String.valueOf(this.code.charAt(peek)))){
                             break;
                         }
                         else {
@@ -103,14 +106,14 @@ public class lexical {
                         }
                     }
                     catch (StringIndexOutOfBoundsException e) {
-                        endstatementFlag = true;
+                        endStatementFlag = true;
                         break;
                     }
                     i = end;
                 }
             }
 
-            else if(!(isalnum(String.valueOf(this.code.charAt(i))))){
+            else if(!(isAlNum(String.valueOf(this.code.charAt(i))))){
                  //START OF READING IF COMMENTS
                 if(String.valueOf(this.code.charAt(start)).contains("/") && end != this.code.length()-1) {
                     end = start + 1;
@@ -169,7 +172,7 @@ public class lexical {
                         }
                     }
                 }
-                // end of String
+                // End of String
 
 
                 while ((end < this.code.length())){
@@ -184,7 +187,7 @@ public class lexical {
                         }
                     }
                     catch (StringIndexOutOfBoundsException e) {
-                        endstatementFlag = true;
+                        endStatementFlag = true;
                         break;
                     }
                 }
@@ -206,7 +209,7 @@ public class lexical {
                 functionFlag = false;
                 methodFlag = false;
                 semicolonFlag = false;
-                endstatementFlag = false;
+                endStatementFlag = false;
                 output.add(new container(codeinput,",","Conditionals"));
             }
             //checks if it datatypes contain codeinput and activates varFlag since a data type will have a variable name afterwards
@@ -214,7 +217,7 @@ public class lexical {
                 output.add(new container(codeinput,",","Data Types"));
                 semicolonFlag = true;
                 varFlag = true;
-                endstatementFlag=false;
+                endStatementFlag =false;
             }
             else if (constant.operators.contains(codeinput)) {
                 output.add(new container(codeinput,",","operators"));
@@ -248,10 +251,10 @@ public class lexical {
                 output.add(new container(this.code.substring(start,peek), "n/a", "Multi-Line Comment"));
                 multiFlag = false;
             }
-            else if (semicolonFlag && !stringStatement.endsWith(";") && endstatementFlag) {
+            else if (semicolonFlag && !stringStatement.endsWith(";") && endStatementFlag) {
                 output.add(new container(codeinput, "Error", "Semicolon not found."));
                 semicolonFlag = false;
-                endstatementFlag = false;
+                endStatementFlag = false;
                 stringStatement = "\0";
             }
             else if(variableContainer.contains(codeinput)){
@@ -301,10 +304,12 @@ public class lexical {
         }
     }
 
-    private boolean isalnum(String val){
+    // isAlNum function is used to check if the current character is an alpha-numeric value
+    private boolean isAlNum(String val){
         return val != null && val.matches("^[a-zA-Z0-9_]*$");
     }
 
+    // duplicate function is used to check if the Array List has a duplicate String
     private boolean duplicate(ArrayList<String> words){
         for(int i = 0; i < words.size(); i++) {
             for(int j = i + 1; j < words.size(); j++) {

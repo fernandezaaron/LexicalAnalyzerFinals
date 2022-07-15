@@ -1,3 +1,4 @@
+// This class is used to store the output of the code
 public class container {
     private String code;
     private String value;
