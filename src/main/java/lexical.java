@@ -41,6 +41,7 @@ public class lexical {
         int peek = 0;
         String codeinput = "";
         String value = "";
+        String identifier = "";
         String stringStatement = "";
 
 
@@ -206,54 +207,65 @@ public class lexical {
                 varFlag = false;
             }
             if(constant.keywords.contains(codeinput)) {
-                output.add(new container(codeinput,",","Keywords"));
+                value = codeinput;
+                identifier = "Keywords";
                 varFlag = true;
             }
             else if(constant.semiKeywords.contains(codeinput)) {
-                output.add(new container(codeinput,",","Keywords"));
+                value = codeinput;
+                identifier = "Keywords";
             }
             else if(constant.conditionals.contains(codeinput)) {
+                value = codeinput;
+                identifier = "Conditionals";
                 varFlag = true;
                 functionFlag = false;
                 methodFlag = false;
                 semicolonFlag = false;
                 endStatementFlag = false;
-                output.add(new container(codeinput,",","Conditionals"));
             }
             //checks if it datatypes contain codeinput and activates varFlag since a data type will have a variable name afterwards
             else if(constant.dataTypes.contains(codeinput)) {
-                output.add(new container(codeinput,",","Data Types"));
+                value = "";
+                identifier = "Data Types";
                 semicolonFlag = true;
                 varFlag = true;
                 endStatementFlag = false;
             }
             else if (constant.operators.contains(codeinput)) {
-                output.add(new container(codeinput,",","operators"));
+                value = "";
+                identifier = "Operators";
             }
             else if (constant.punctuators.contains(codeinput)) {
                 varFlag = true;
-                output.add(new container(codeinput,",","punctuators"));
+                value = "";
+                identifier = "Punctuators";
             }
             else if (constant.boolTypes.contains(codeinput)) {
-                output.add(new container(codeinput, ",", "boolean"));
+                value = codeinput;
+                identifier = "Boolean";
             }
             else if (doubleQuote != "\0") {
-                output.add(new container(codeinput, "n/a", doubleQuote));
+                value = this.code.substring(start + 1, peek - 1);
+                identifier = doubleQuote;
                 doubleQuote = "\0";
             }
             else if (codeinput.matches(" ") || codeinput.matches("\n") || codeinput.matches("\t")) {
                 continue;
             }
             else if(singleFlag){
-                output.add(new container(codeinput, "n/a", "Single-Line Comment"));
+                value = "Comment";
+                identifier = "Multi-Single-Line Comment";
                 singleFlag = false;
             }
             else if(multiFlag){
-                output.add(new container(this.code.substring(start,peek), "n/a", "Multi-Line Comment"));
+                value = "Comment";
+                identifier = "Multi-Line Comment";
                 multiFlag = false;
             }
             else if (semicolonFlag && !stringStatement.endsWith(";") && endStatementFlag) {
-                output.add(new container(codeinput, "Error", "Semicolon not found."));
+                value = "Error";
+                identifier = "Semicolon not found.";
                 semicolonFlag = false;
                 endStatementFlag = false;
                 stringStatement = "\0";
@@ -261,54 +273,60 @@ public class lexical {
             else if (constant.separators.contains(codeinput)) {
                 if(codeinput.equals("(") || codeinput.equals("[")){
                     varFlag = true;
-                    if(!methodFlag)
+                    if(!methodFlag && !functionFlag)
                         semicolonFlag = false;
                 }
-                output.add(new container(codeinput,",","separators"));
+                value = "";
+                identifier = "Separators";
             }
-            else if(variableContainer.contains(codeinput)){
+            else if(variableContainer.contains(codeinput)) {
+                value = "USED";
+                identifier = "Variable";
                 variableContainer.add(codeinput);
-                output.add(new container(codeinput, "USED", "variable"));
             }
             // Checks if variable is valid
             else if(varFlag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
-                output.add(new container(codeinput, ",", "Invalid Variable Name"));
+                value = "Error";
+                identifier = "Invalid Variable Name";
                 varFlag = false;
             }
             // If variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
             else if (varFlag){
                 variableContainer.add(codeinput);
                 if(!duplicate(variableContainer)) {
-                    output.add(new container(codeinput, "Declared", "variable"));
+                    value = "Declared";
+                    identifier = "Variable";
                 }
                 else {
-                    output.add(new container(codeinput, "Not Declared", "variable"));
+                    value = "Not Declared";
+                    identifier = "Variable";
                     variableContainer.add(codeinput);
                 }
                 varFlag = false;
 
             }
             else if(functionFlag) {
-                output.add(new container(codeinput, "", "Function Name"));
-                functionFlag = false;
+                value = codeinput;
+                identifier = "Function Name";
+                if(endStatementFlag)
+                    functionFlag = false;
             }
             else if(!variableContainer.contains(codeinput)  && !Character.isDigit(codeinput.charAt(0))){
                 if(methodFlag) {
-                    output.add(new container(codeinput, ",", "Method"));
-                    methodFlag = false;
+                    value = codeinput;
+                    identifier = "Method";
+                    if(endStatementFlag)
+                        methodFlag = false;
                 }
 //                      else{
 //                          output.add(new container(codeinput, "Error", "Cannot Resolve Symbol"));
 //                      }
             }
             else{
-                output.add(new container(codeinput, ",", "identifier"));
+                value = codeinput;
+                identifier = "identifier";
             }
-            //varFlag = false;
-            // multiFlag = false;
-            // singleFlag = false;
-            functionFlag = false;
-            // methodFlag =false;
+            output.add(new container(codeinput, value, identifier));
             i = end;
         }
     }
