@@ -73,7 +73,6 @@ public class lexical {
 //                        else {
 //                            end++;
 //                        }
-
                         if(semicolonFlag) {
                             varFlag = true;
                         }
@@ -261,12 +260,12 @@ public class lexical {
                 variableContainer.add(codeinput);
                 output.add(new container(codeinput, "USED", "variable"));
             }
-            //checks if variable is valid
+            // Checks if variable is valid
             else if(varFlag && Character.isDigit(codeinput.charAt(0)) || codeinput.charAt(0) == '_'){
                 output.add(new container(codeinput, ",", "Invalid Variable Name"));
                 varFlag = false;
             }
-            //if variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
+            // If variable is valid, it will set the value to not used and add the current codeinput to the variable arraylist
             else if (varFlag){
                 variableContainer.add(codeinput);
                 if(!duplicate(variableContainer)) {
