@@ -12,6 +12,7 @@ public class lexical {
     private boolean methodFlag;
     private boolean semicolonFlag;
     private boolean endStatementFlag;
+    private boolean forLoopFlag;
 
     // Constructor is used to save the code
     public lexical(String code){
@@ -26,6 +27,7 @@ public class lexical {
         methodFlag = false;
         semicolonFlag = false;
         endStatementFlag = false;
+        forLoopFlag = false;
     }
     // addRow function is used to output the code
     public void addRow(){
@@ -99,7 +101,8 @@ public class lexical {
                             break;
                         }
                         if(this.code.charAt(peek) == ';'){
-                            endStatementFlag = true;
+                            if(!forLoopFlag)
+                                endStatementFlag = true;
                             semicolonFlag = false;
                             break;
                         }
@@ -191,6 +194,9 @@ public class lexical {
                             endStatementFlag = true;
                             break;
                         }
+                        if (this.code.charAt(i) == ')' && forLoopFlag) {
+                            forLoopFlag = false;
+                        }
                         else {
                             break;
                         }
@@ -223,6 +229,10 @@ public class lexical {
                 methodFlag = false;
                 semicolonFlag = false;
                 endStatementFlag = false;
+                if(codeinput.equals("for")) {
+                    forLoopFlag = true;
+                    semicolonFlag = true;
+                }
             }
             //checks if it datatypes contain codeinput and activates varFlag since a data type will have a variable name afterwards
             else if(constant.dataTypes.contains(codeinput)) {
@@ -231,6 +241,10 @@ public class lexical {
                 semicolonFlag = true;
                 varFlag = true;
                 endStatementFlag = false;
+            }
+            else if (constant.logicOp.contains(codeinput)) {
+                value = codeinput;
+                identifier = "Logical Operators";
             }
             else if (constant.operators.contains(codeinput)) {
                 value = "";
@@ -263,7 +277,7 @@ public class lexical {
                 identifier = "Multi-Line Comment";
                 multiFlag = false;
             }
-            else if (semicolonFlag && !stringStatement.endsWith(";") && endStatementFlag) {
+            else if (semicolonFlag && !stringStatement.endsWith(";") && !stringStatement.endsWith("}") && endStatementFlag) {
                 value = "Error";
                 identifier = "Semicolon not found.";
                 semicolonFlag = false;
@@ -273,7 +287,7 @@ public class lexical {
             else if (constant.separators.contains(codeinput)) {
                 if(codeinput.equals("(") || codeinput.equals("[")){
                     varFlag = true;
-                    if(!methodFlag && !functionFlag)
+                    if(!methodFlag && !functionFlag || !forLoopFlag)
                         semicolonFlag = false;
                 }
                 value = "";
