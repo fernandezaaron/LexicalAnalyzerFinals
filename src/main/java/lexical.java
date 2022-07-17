@@ -269,7 +269,7 @@ public class lexical {
             }
             else if(singleFlag){
                 value = "Comment";
-                identifier = "Multi-Single-Line Comment";
+                identifier = "Single-Line Comment";
                 singleFlag = false;
             }
             else if(multiFlag){
